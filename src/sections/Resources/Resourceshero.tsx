@@ -100,71 +100,71 @@ const LEIBadge = () => (
 );
 
 // ─── Chat Widget (matches JurisdictionsHero exactly) ─────────────────────────
-const ChatWidget = () => (
-  <div style={{
-    position: "fixed",
-    bottom: "80px",
-    right: "24px",
-    background: "#ffffff",
-    borderRadius: "16px",
-    boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-    padding: "14px 18px",
-    display: "flex",
-    flexDirection: "column",
-    gap: "12px",
-    minWidth: "160px",
-    zIndex: 100,
-    animation: "chatSlideIn 0.4s 0.8s ease both",
-  }}>
-    <button style={{
-      display: "flex", alignItems: "center", gap: "10px",
-      background: "none", border: "none", cursor: "pointer",
-      fontSize: "13px", fontWeight: 500, color: "#374151",
-      fontFamily: "'Poppins', sans-serif", padding: 0,
-      transition: "color 0.2s",
-    }}
-      onMouseEnter={(e) => (e.currentTarget.style.color = "#3aafa9")}
-      onMouseLeave={(e) => (e.currentTarget.style.color = "#374151")}
-    >
-      <div style={{
-        width: "28px", height: "28px", borderRadius: "50%",
-        background: "rgba(114,208,192,0.15)",
-        display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-      }}>
-        <svg width="14" height="14" fill="none" stroke="#3aafa9" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-      </div>
-      Chat with us
-    </button>
+// const ChatWidget = () => (
+//   <div style={{
+//     position: "fixed",
+//     bottom: "80px",
+//     right: "24px",
+//     background: "#ffffff",
+//     borderRadius: "16px",
+//     boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+//     padding: "14px 18px",
+//     display: "flex",
+//     flexDirection: "column",
+//     gap: "12px",
+//     minWidth: "160px",
+//     zIndex: 100,
+//     animation: "chatSlideIn 0.4s 0.8s ease both",
+//   }}>
+//     <button style={{
+//       display: "flex", alignItems: "center", gap: "10px",
+//       background: "none", border: "none", cursor: "pointer",
+//       fontSize: "13px", fontWeight: 500, color: "#374151",
+//       fontFamily: "'Poppins', sans-serif", padding: 0,
+//       transition: "color 0.2s",
+//     }}
+//       onMouseEnter={(e) => (e.currentTarget.style.color = "#3aafa9")}
+//       onMouseLeave={(e) => (e.currentTarget.style.color = "#374151")}
+//     >
+//       <div style={{
+//         width: "28px", height: "28px", borderRadius: "50%",
+//         background: "rgba(114,208,192,0.15)",
+//         display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+//       }}>
+//         <svg width="14" height="14" fill="none" stroke="#3aafa9" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+//             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+//         </svg>
+//       </div>
+//       Chat with us
+//     </button>
 
-    <div style={{ borderTop: "1px solid #f3f4f6" }} />
+//     <div style={{ borderTop: "1px solid #f3f4f6" }} />
 
-    <button style={{
-      display: "flex", alignItems: "center", gap: "10px",
-      background: "none", border: "none", cursor: "pointer",
-      fontSize: "13px", fontWeight: 500, color: "#374151",
-      fontFamily: "'Poppins', sans-serif", padding: 0,
-      transition: "color 0.2s",
-    }}
-      onMouseEnter={(e) => (e.currentTarget.style.color = "#3aafa9")}
-      onMouseLeave={(e) => (e.currentTarget.style.color = "#374151")}
-    >
-      <div style={{
-        width: "28px", height: "28px", borderRadius: "50%",
-        background: "rgba(114,208,192,0.15)",
-        display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-      }}>
-        <svg width="14" height="14" fill="none" stroke="#3aafa9" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-        </svg>
-      </div>
-      Call Us
-    </button>
-  </div>
-);
+//     <button style={{
+//       display: "flex", alignItems: "center", gap: "10px",
+//       background: "none", border: "none", cursor: "pointer",
+//       fontSize: "13px", fontWeight: 500, color: "#374151",
+//       fontFamily: "'Poppins', sans-serif", padding: 0,
+//       transition: "color 0.2s",
+//     }}
+//       onMouseEnter={(e) => (e.currentTarget.style.color = "#3aafa9")}
+//       onMouseLeave={(e) => (e.currentTarget.style.color = "#374151")}
+//     >
+//       <div style={{
+//         width: "28px", height: "28px", borderRadius: "50%",
+//         background: "rgba(114,208,192,0.15)",
+//         display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+//       }}>
+//         <svg width="14" height="14" fill="none" stroke="#3aafa9" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+//             d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+//         </svg>
+//       </div>
+//       Call Us
+//     </button>
+//   </div>
+// );
 
 // ─── Main Section ─────────────────────────────────────────────────────────────
 const ResourcesHero = () => {
@@ -339,13 +339,13 @@ const ResourcesHero = () => {
           </svg>
         </div>
 
-        {/* ── Chat Widget (fixed, desktop only) ── */}
+        {/* ── Chat Widget (fixed, desktop only) ──
         <div className="hidden lg:block">
           <ChatWidget />
-        </div>
+        </div> */}
 
         {/* ── Scroll down button (fixed) ── */}
-        <button
+        {/* <button
           onClick={() => window.scrollBy({ top: 400, behavior: "smooth" })}
           style={{
             position: "fixed",
@@ -373,7 +373,7 @@ const ResourcesHero = () => {
           <svg width="16" height="16" fill="none" stroke="white" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
           </svg>
-        </button>
+        </button> */}
       </section>
     </>
   );

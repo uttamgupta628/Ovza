@@ -1,11 +1,10 @@
-import Navbar from '../components/Navbar'
+
 import HeroSection from '../sections/home/HeroSection'
 import OVZAFiles from '../sections/home/Ovzafiles'
 import OurServices from '../sections/home/Ourservices'
 import WhyOVZA from '../sections/home/Whyovza'
 import ClientsAndPartner from '../sections/home/Clientsandpartner'
 import VideoAndNewsletter from '../sections/home/Videoandnewsletter'
-import Footer from '../components/Footer'
 
 import videoFile from '../assets/ovza-guide.mp4'
 import newsletterImg from '../assets/newsletter-illustration.png' 
@@ -26,7 +25,6 @@ import container2Image from '../assets/Container(2).png'
 const Home = () => {
   return (
     <>
-      <Navbar />
       <HeroSection />
       <OVZAFiles />
       <OurServices
@@ -44,7 +42,6 @@ const Home = () => {
       />
         <ClientsAndPartner partnerImage={partnerImg} />
         <VideoAndNewsletter videoSrc={videoFile} newsletterImage={newsletterImg} />
-        <Footer />
     </>
   )
 }

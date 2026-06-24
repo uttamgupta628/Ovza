@@ -339,7 +339,7 @@ const Ourservices = () => {
           </div>
         </div>
 
-        {/* Chat Widget */}
+        {/* Chat Widget
         <div className="ovza-chat-widget">
           <button className="ovza-chat-btn">
             <div className="ovza-chat-icon">
@@ -358,14 +358,14 @@ const Ourservices = () => {
             </div>
             Call Us
           </button>
-        </div>
+        </div> */}
 
         {/* Scroll down button */}
-        <button className="ovza-scroll-btn" onClick={() => window.scrollBy({ top: 400, behavior: "smooth" })}>
+        {/* <button className="ovza-scroll-btn" onClick={() => window.scrollBy({ top: 400, behavior: "smooth" })}>
           <svg width="16" height="16" fill="none" stroke="white" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
           </svg>
-        </button>
+        </button> */}
       </section>
     </>
   );

@@ -45,47 +45,47 @@ const LEIBadge = () => (
   </div>
 );
 
-const ChatWidget = () => (
-  <div className="bg-white rounded-xl shadow-xl overflow-hidden w-[170px]">
-    <button className="w-full flex items-center gap-3 px-4 py-4 text-sm text-gray-600 hover:bg-gray-50">
-      <svg
-        className="w-4 h-4 text-[#72D0C0]"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.86 9.86 0 01-4.255-.949L3 20l1.395-3.721C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-        />
-      </svg>
+// const ChatWidget = () => (
+//   <div className="bg-white rounded-xl shadow-xl overflow-hidden w-[170px]">
+//     <button className="w-full flex items-center gap-3 px-4 py-4 text-sm text-gray-600 hover:bg-gray-50">
+//       <svg
+//         className="w-4 h-4 text-[#72D0C0]"
+//         fill="none"
+//         stroke="currentColor"
+//         viewBox="0 0 24 24"
+//       >
+//         <path
+//           strokeLinecap="round"
+//           strokeLinejoin="round"
+//           strokeWidth={2}
+//           d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.86 9.86 0 01-4.255-.949L3 20l1.395-3.721C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+//         />
+//       </svg>
 
-      <span>Chat with us</span>
-    </button>
+//       <span>Chat with us</span>
+//     </button>
 
-    <div className="border-t border-gray-100" />
+//     <div className="border-t border-gray-100" />
 
-    <button className="w-full flex items-center gap-3 px-4 py-4 text-sm text-gray-600 hover:bg-gray-50">
-      <svg
-        className="w-4 h-4 text-[#72D0C0]"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498A1 1 0 0121 16.72V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-        />
-      </svg>
+//     <button className="w-full flex items-center gap-3 px-4 py-4 text-sm text-gray-600 hover:bg-gray-50">
+//       <svg
+//         className="w-4 h-4 text-[#72D0C0]"
+//         fill="none"
+//         stroke="currentColor"
+//         viewBox="0 0 24 24"
+//       >
+//         <path
+//           strokeLinecap="round"
+//           strokeLinejoin="round"
+//           strokeWidth={2}
+//           d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498A1 1 0 0121 16.72V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+//         />
+//       </svg>
 
-      <span>Call Us</span>
-    </button>
-  </div>
-);
+//       <span>Call Us</span>
+//     </button>
+//   </div>
+// );
 
 const HeroSection = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -293,11 +293,11 @@ const HeroSection = () => {
 
         {/* Chat Widget */}
         <div className="hidden lg:block absolute right-8 bottom-16">
-          <ChatWidget />
+          {/* <ChatWidget /> */}
         </div>
 
         {/* Bottom Arrow */}
-        <button
+        {/* <button
           className="
             hidden lg:flex
             absolute
@@ -326,7 +326,7 @@ const HeroSection = () => {
               d="M19 9l-7 7-7-7"
             />
           </svg>
-        </button>
+        </button> */}
       </section>
     </>
   );
