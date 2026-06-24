@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import marginImg from "../../assets/margin.png";
-// margin
+import marginImg from "../../assets/imagemargin.png";
+// image
 
 function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
