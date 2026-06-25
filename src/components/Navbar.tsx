@@ -63,7 +63,7 @@ const servicesData = {
   tools: [
     {
       label: "Company Name Checker",
-      route: "",
+      route: "company-name-checker",
       desc: "Check availability before you register. Free tool.",
       icon: (
         <svg width="28" height="28" fill="none" stroke="#0D9D8A" strokeWidth="1.6" viewBox="0 0 24 24">

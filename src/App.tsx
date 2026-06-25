@@ -12,6 +12,7 @@ import ChatWidget from './components/ChatWidget'
 import OffshorePage from './pages/Offshore';
 import Banking from './pages/Banking';
 import NotarizationPage from './pages/Notarization';
+import CompanyNameCheckerPage from './pages/CompanyNameChecker'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
        <Route path="/offshore-company-formation" element={<OffshorePage />} />
         <Route path="/banking"            element={<Banking />} />
         <Route path="/notarization"       element={<NotarizationPage />} />
+        <Route path="/company-name-checker" element={<CompanyNameCheckerPage />}/>
       </Routes>
       <Footer />
       <ChatWidget />
