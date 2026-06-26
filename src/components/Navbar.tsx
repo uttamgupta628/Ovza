@@ -19,11 +19,19 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: "Services & Tools", route: "/services-and-tools", megaType: "services" },
-  { label: "Jurisdictions",    route: "/jurisdictions",       megaType: "jurisdictions" },
-  { label: "Resources",        route: "/resources",           megaType: "resources" },
-  { label: "Partner",          route: "/partner" },
-  { label: "About",            route: "/about" },
+  {
+    label: "Services & Tools",
+    route: "/services-and-tools",
+    megaType: "services",
+  },
+  {
+    label: "Jurisdictions",
+    route: "/jurisdictions",
+    megaType: "jurisdictions",
+  },
+  { label: "Resources", route: "/resources", megaType: "resources" },
+  { label: "Partner", route: "/partner" },
+  { label: "About", route: "/about" },
 ];
 
 // ── Mega Menu Data ─────────────────────────────────────────────────────────────
@@ -34,8 +42,19 @@ const servicesData = {
       route: "/offshore-company-formation",
       desc: "Set up your offshore entity in the right jurisdiction for your goals.",
       icon: (
-        <svg width="28" height="28" fill="none" stroke="#0D9D8A" strokeWidth="1.6" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+        <svg
+          width="28"
+          height="28"
+          fill="none"
+          stroke="#0D9D8A"
+          strokeWidth="1.6"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+          />
         </svg>
       ),
     },
@@ -44,8 +63,19 @@ const servicesData = {
       route: "/banking",
       desc: "Navigate international banking with expert guidance and introductions.",
       icon: (
-        <svg width="28" height="28" fill="none" stroke="#0D9D8A" strokeWidth="1.6" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+        <svg
+          width="28"
+          height="28"
+          fill="none"
+          stroke="#0D9D8A"
+          strokeWidth="1.6"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+          />
         </svg>
       ),
     },
@@ -54,8 +84,19 @@ const servicesData = {
       route: "/notarization",
       desc: "Notarization and certification for official and international use.",
       icon: (
-        <svg width="28" height="28" fill="none" stroke="#0D9D8A" strokeWidth="1.6" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        <svg
+          width="28"
+          height="28"
+          fill="none"
+          stroke="#0D9D8A"
+          strokeWidth="1.6"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
         </svg>
       ),
     },
@@ -66,8 +107,19 @@ const servicesData = {
       route: "company-name-checker",
       desc: "Check availability before you register. Free tool.",
       icon: (
-        <svg width="28" height="28" fill="none" stroke="#0D9D8A" strokeWidth="1.6" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        <svg
+          width="28"
+          height="28"
+          fill="none"
+          stroke="#0D9D8A"
+          strokeWidth="1.6"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
         </svg>
       ),
     },
@@ -76,8 +128,19 @@ const servicesData = {
       route: "",
       desc: "Compare offshore jurisdictions side by side. Interactive tool.",
       icon: (
-        <svg width="28" height="28" fill="none" stroke="#0D9D8A" strokeWidth="1.6" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+        <svg
+          width="28"
+          height="28"
+          fill="none"
+          stroke="#0D9D8A"
+          strokeWidth="1.6"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+          />
         </svg>
       ),
     },
@@ -117,8 +180,19 @@ const resourcesData = [
     route: "",
     desc: "Guides, deep-dives, and expert commentary from the OVZA team.",
     icon: (
-      <svg width="28" height="28" fill="none" stroke="#0D9D8A" strokeWidth="1.6" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+      <svg
+        width="28"
+        height="28"
+        fill="none"
+        stroke="#0D9D8A"
+        strokeWidth="1.6"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
+        />
       </svg>
     ),
   },
@@ -127,8 +201,19 @@ const resourcesData = [
     route: "",
     desc: "Download our service and jurisdiction booklets for offline reference.",
     icon: (
-      <svg width="28" height="28" fill="none" stroke="#0D9D8A" strokeWidth="1.6" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      <svg
+        width="28"
+        height="28"
+        fill="none"
+        stroke="#0D9D8A"
+        strokeWidth="1.6"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+        />
       </svg>
     ),
   },
@@ -137,8 +222,19 @@ const resourcesData = [
     route: "",
     desc: "In-depth guides to every offshore jurisdiction — costs, structures, and compliance.",
     icon: (
-      <svg width="28" height="28" fill="none" stroke="#0D9D8A" strokeWidth="1.6" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/>
+      <svg
+        width="28"
+        height="28"
+        fill="none"
+        stroke="#0D9D8A"
+        strokeWidth="1.6"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"
+        />
       </svg>
     ),
   },
@@ -147,8 +243,19 @@ const resourcesData = [
     route: "",
     desc: "Legal references and offshore legislation, organised by jurisdiction.",
     icon: (
-      <svg width="28" height="28" fill="none" stroke="#0D9D8A" strokeWidth="1.6" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+      <svg
+        width="28"
+        height="28"
+        fill="none"
+        stroke="#0D9D8A"
+        strokeWidth="1.6"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+        />
       </svg>
     ),
   },
@@ -426,16 +533,43 @@ const navStyles = `
 
 // ── Small helpers ──────────────────────────────────────────────────────────────
 const ChevronDown = ({ open }: { open?: boolean }) => (
-  <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-    style={{ transition: "transform 0.2s", transform: open ? "rotate(180deg)" : "rotate(0deg)", flexShrink: 0 }}>
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/>
+  <svg
+    width="12"
+    height="12"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    style={{
+      transition: "transform 0.2s",
+      transform: open ? "rotate(180deg)" : "rotate(0deg)",
+      flexShrink: 0,
+    }}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2.5}
+      d="M19 9l-7 7-7-7"
+    />
   </svg>
 );
 
 const NavGlobeIcon = () => (
-  <svg width="14" height="14" fill="none" stroke="#0D9D8A" strokeWidth="1.8" viewBox="0 0 24 24" style={{ flexShrink: 0 }}>
-    <circle cx="12" cy="12" r="10"/>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/>
+  <svg
+    width="14"
+    height="14"
+    fill="none"
+    stroke="#0D9D8A"
+    strokeWidth="1.8"
+    viewBox="0 0 24 24"
+    style={{ flexShrink: 0 }}
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"
+    />
   </svg>
 );
 
@@ -443,8 +577,17 @@ const FlagImg = ({ code, name }: { code: string; name: string }) => (
   <img
     src={`https://flagcdn.com/w40/${code}.png`}
     srcSet={`https://flagcdn.com/w80/${code}.png 2x`}
-    width="28" height="20" alt={name}
-    style={{ width: "22px", height: "15px", objectFit: "cover", borderRadius: "2px", flexShrink: 0, boxShadow: "0 1px 3px rgba(0,0,0,0.15)" }}
+    width="28"
+    height="20"
+    alt={name}
+    style={{
+      width: "22px",
+      height: "15px",
+      objectFit: "cover",
+      borderRadius: "2px",
+      flexShrink: 0,
+      boxShadow: "0 1px 3px rgba(0,0,0,0.15)",
+    }}
   />
 );
 
@@ -453,36 +596,58 @@ const ServicesMega = ({ onClose }: { onClose: () => void }) => (
   <div className="ovza-mega-inner">
     <p className="ovza-mega-section-title">Our Services</p>
     <div className="ovza-services-grid">
-      {servicesData.services.map((s) => (
+      {servicesData.services.map((s) =>
         s.route ? (
-          <Link key={s.label} to={s.route} className="ovza-service-card" onClick={onClose}>
+          <Link
+            key={s.label}
+            to={s.route}
+            className="ovza-service-card"
+            onClick={onClose}
+          >
             <div className="ovza-service-card-icon">{s.icon}</div>
-            <div><h4>{s.label}</h4><p>{s.desc}</p></div>
+            <div>
+              <h4>{s.label}</h4>
+              <p>{s.desc}</p>
+            </div>
           </Link>
         ) : (
           <button key={s.label} className="ovza-service-card" onClick={onClose}>
             <div className="ovza-service-card-icon">{s.icon}</div>
-            <div><h4>{s.label}</h4><p>{s.desc}</p></div>
+            <div>
+              <h4>{s.label}</h4>
+              <p>{s.desc}</p>
+            </div>
           </button>
-        )
-      ))}
+        ),
+      )}
     </div>
-    <hr className="ovza-mega-divider"/>
+    <hr className="ovza-mega-divider" />
     <p className="ovza-mega-section-title">Tools</p>
     <div className="ovza-tools-grid">
-      {servicesData.tools.map((t) => (
+      {servicesData.tools.map((t) =>
         t.route ? (
-          <Link key={t.label} to={t.route} className="ovza-service-card" onClick={onClose}>
+          <Link
+            key={t.label}
+            to={t.route}
+            className="ovza-service-card"
+            onClick={onClose}
+          >
             <div className="ovza-service-card-icon">{t.icon}</div>
-            <div><h4>{t.label}</h4><p>{t.desc}</p></div>
+            <div>
+              <h4>{t.label}</h4>
+              <p>{t.desc}</p>
+            </div>
           </Link>
         ) : (
           <button key={t.label} className="ovza-service-card" onClick={onClose}>
             <div className="ovza-service-card-icon">{t.icon}</div>
-            <div><h4>{t.label}</h4><p>{t.desc}</p></div>
+            <div>
+              <h4>{t.label}</h4>
+              <p>{t.desc}</p>
+            </div>
           </button>
-        )
-      ))}
+        ),
+      )}
     </div>
   </div>
 );
@@ -496,29 +661,38 @@ const JurisdictionsMega = ({ onClose }: { onClose: () => void }) => (
         <ul className="ovza-juris-list" style={{ marginTop: "12px" }}>
           {jurisdictionsData.americas.map((j) => (
             <li key={j.code} onClick={onClose}>
-              <FlagImg code={j.code} name={j.name}/>{j.name}
+              <FlagImg code={j.code} name={j.name} />
+              {j.name}
             </li>
           ))}
         </ul>
       </div>
-      <div className="ovza-juris-divider"/>
+      <div className="ovza-juris-divider" />
       <div className="ovza-juris-col" style={{ minWidth: "180px" }}>
         <div className="ovza-juris-col-title">Asia Pacific</div>
-        <ul className="ovza-juris-list single-col" style={{ marginTop: "12px" }}>
+        <ul
+          className="ovza-juris-list single-col"
+          style={{ marginTop: "12px" }}
+        >
           {jurisdictionsData.asiaPacific.map((j) => (
             <li key={j.code} onClick={onClose}>
-              <FlagImg code={j.code} name={j.name}/>{j.name}
+              <FlagImg code={j.code} name={j.name} />
+              {j.name}
             </li>
           ))}
         </ul>
       </div>
-      <div className="ovza-juris-divider"/>
+      <div className="ovza-juris-divider" />
       <div className="ovza-juris-col" style={{ minWidth: "160px" }}>
         <div className="ovza-juris-col-title">Africa</div>
-        <ul className="ovza-juris-list single-col" style={{ marginTop: "12px" }}>
+        <ul
+          className="ovza-juris-list single-col"
+          style={{ marginTop: "12px" }}
+        >
           {jurisdictionsData.africa.map((j) => (
             <li key={j.code} onClick={onClose}>
-              <FlagImg code={j.code} name={j.name}/>{j.name}
+              <FlagImg code={j.code} name={j.name} />
+              {j.name}
             </li>
           ))}
         </ul>
@@ -531,19 +705,34 @@ const JurisdictionsMega = ({ onClose }: { onClose: () => void }) => (
 const ResourcesMega = ({ onClose }: { onClose: () => void }) => (
   <div className="ovza-mega-inner">
     <div className="ovza-resources-grid">
-      {resourcesData.map((r) => (
+      {resourcesData.map((r) =>
         r.route ? (
-          <Link key={r.label} to={r.route} className="ovza-resource-card" onClick={onClose}>
+          <Link
+            key={r.label}
+            to={r.route}
+            className="ovza-resource-card"
+            onClick={onClose}
+          >
             <div className="ovza-resource-card-icon">{r.icon}</div>
-            <div><h4>{r.label}</h4><p>{r.desc}</p></div>
+            <div>
+              <h4>{r.label}</h4>
+              <p>{r.desc}</p>
+            </div>
           </Link>
         ) : (
-          <button key={r.label} className="ovza-resource-card" onClick={onClose}>
+          <button
+            key={r.label}
+            className="ovza-resource-card"
+            onClick={onClose}
+          >
             <div className="ovza-resource-card-icon">{r.icon}</div>
-            <div><h4>{r.label}</h4><p>{r.desc}</p></div>
+            <div>
+              <h4>{r.label}</h4>
+              <p>{r.desc}</p>
+            </div>
           </button>
-        )
-      ))}
+        ),
+      )}
     </div>
   </div>
 );
@@ -554,30 +743,67 @@ const TrackOrderModal = ({ onClose }: { onClose: () => void }) => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [onClose]);
 
   return (
-    <div className="ovza-modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <div
+      className="ovza-modal-overlay"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
       <div className="ovza-modal">
-        <button className="ovza-modal-close" onClick={onClose}>×</button>
-        <div className="ovza-modal-logo"><img src={ovzaLogo} alt="OVZA"/></div>
+        <button className="ovza-modal-close" onClick={onClose}>
+          ×
+        </button>
+        <div className="ovza-modal-logo">
+          <img src={ovzaLogo} alt="OVZA" />
+        </div>
         <div className="ovza-modal-icon">
-          <svg width="26" height="26" fill="none" stroke="#72D0C0" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
-              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+          <svg
+            width="26"
+            height="26"
+            fill="none"
+            stroke="#72D0C0"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.8}
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+            />
           </svg>
         </div>
         <h2>Track Your Order</h2>
-        <p>Enter your details to access your<br/>dashboard</p>
+        <p>
+          Enter your details to access your
+          <br />
+          dashboard
+        </p>
         <label className="ovza-modal-label">Order Identifier</label>
-        <input className="ovza-modal-input" type="text" value={orderId} onChange={(e) => setOrderId(e.target.value)}/>
+        <input
+          className="ovza-modal-input"
+          type="text"
+          value={orderId}
+          onChange={(e) => setOrderId(e.target.value)}
+        />
         <label className="ovza-modal-label">Email Address</label>
-        <input className="ovza-modal-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+        <input
+          className="ovza-modal-input"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <button className="ovza-modal-submit">Open Dashboard</button>
-        <div className="ovza-modal-footer">Lost your ID? <a href="#">CLICK HERE</a></div>
+        <div className="ovza-modal-footer">
+          Lost your ID? <a href="#">CLICK HERE</a>
+        </div>
       </div>
     </div>
   );
@@ -585,20 +811,21 @@ const TrackOrderModal = ({ onClose }: { onClose: () => void }) => {
 
 // ── Navbar ─────────────────────────────────────────────────────────────────────
 const Navbar = () => {
-  const [openMega, setOpenMega]             = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen]         = useState(false);
+  const [openMega, setOpenMega] = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [trackModalOpen, setTrackModalOpen] = useState(false);
-  const navRef     = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const navigate   = useNavigate();
-  const location   = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const id = "ovza-nav-styles";
     if (!document.getElementById(id)) {
       const el = document.createElement("style");
-      el.id = id; el.textContent = navStyles;
+      el.id = id;
+      el.textContent = navStyles;
       document.head.appendChild(el);
     }
   }, []);
@@ -639,12 +866,15 @@ const Navbar = () => {
   const closeMega = () => setOpenMega(null);
 
   const isActive = (route?: string) =>
-    route ? location.pathname === route || location.pathname.startsWith(route + "/") : false;
+    route
+      ? location.pathname === route || location.pathname.startsWith(route + "/")
+      : false;
 
   const renderMega = (type: string) => {
-    if (type === "services")      return <ServicesMega      onClose={closeMega}/>;
-    if (type === "jurisdictions") return <JurisdictionsMega onClose={closeMega}/>;
-    if (type === "resources")     return <ResourcesMega     onClose={closeMega}/>;
+    if (type === "services") return <ServicesMega onClose={closeMega} />;
+    if (type === "jurisdictions")
+      return <JurisdictionsMega onClose={closeMega} />;
+    if (type === "resources") return <ResourcesMega onClose={closeMega} />;
     return null;
   };
 
@@ -652,45 +882,70 @@ const Navbar = () => {
     <>
       <nav ref={navRef} className="ovza-nav">
         <div className="ovza-nav-inner">
-
           {/* Logo */}
-          <div onClick={() => navigate("/")} style={{ flexShrink: 0, display: "flex", alignItems: "center", cursor: "pointer" }}>
-            <img src={ovzaLogo} alt="OVZA" style={{ height: "36px", width: "auto" }}/>
+          <div
+            onClick={() => navigate("/")}
+            style={{
+              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+          >
+            <img
+              src={ovzaLogo}
+              alt="OVZA"
+              style={{ height: "36px", width: "auto" }}
+            />
           </div>
 
           {/* Desktop nav links */}
-          <div className="ovza-desktop" style={{ alignItems: "center", gap: "2px" }}>
+          <div
+            className="ovza-desktop"
+            style={{ alignItems: "center", gap: "2px" }}
+          >
             {navItems.map((item) => (
               <div
                 key={item.label}
                 style={{ position: "relative" }}
-                onMouseEnter={() => item.megaType ? handleMouseEnter(item.label) : undefined}
-                onMouseLeave={() => item.megaType ? handleMouseLeave() : undefined}
+                onMouseEnter={() =>
+                  item.megaType ? handleMouseEnter(item.label) : undefined
+                }
+                onMouseLeave={() =>
+                  item.megaType ? handleMouseLeave() : undefined
+                }
               >
                 <button
                   className={`ovza-navlink${isActive(item.route) ? " active" : ""}`}
                   onClick={() => {
-                    if (item.megaType) {
-                      setOpenMega((prev) => prev === item.label ? null : item.label);
-                    } else {
-                      if (item.route) navigate(item.route);
-                      setOpenMega(null);
-                    }
+                    if (item.route) navigate(item.route);
+                    setOpenMega(null);
                   }}
                 >
                   {item.label}
-                  {item.megaType && <ChevronDown open={openMega === item.label}/>}
+                  {item.megaType && (
+                    <ChevronDown open={openMega === item.label} />
+                  )}
                 </button>
               </div>
             ))}
           </div>
 
           {/* Desktop right actions */}
-          <div className="ovza-desktop" style={{ alignItems: "center", gap: "10px" }}>
-            <button className="ovza-track-btn" onClick={() => setTrackModalOpen(true)}>
+          <div
+            className="ovza-desktop"
+            style={{ alignItems: "center", gap: "10px" }}
+          >
+            <button
+              className="ovza-track-btn"
+              onClick={() => setTrackModalOpen(true)}
+            >
               <NavGlobeIcon /> Track Order
             </button>
-            <button className="ovza-contact-btn" onClick={() => navigate("/contact")}>
+            <button
+              className="ovza-contact-btn"
+              onClick={() => navigate("/contact")}
+            >
               Contact Us
             </button>
           </div>
@@ -700,15 +955,43 @@ const Navbar = () => {
             className="ovza-mobile-toggle"
             onClick={() => setMobileOpen((p) => !p)}
             aria-label="Toggle menu"
-            style={{ background: "none", border: "none", color: "#c9d1d9", cursor: "pointer", padding: "8px" }}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#c9d1d9",
+              cursor: "pointer",
+              padding: "8px",
+            }}
           >
             {mobileOpen ? (
-              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
+              <svg
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             ) : (
-              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/>
+              <svg
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             )}
           </button>
@@ -721,85 +1004,159 @@ const Navbar = () => {
               <div key={item.label}>
                 <button
                   className={`ovza-navlink${isActive(item.route) ? " active" : ""}`}
-                  style={{ width: "100%", justifyContent: "space-between", marginBottom: "2px" }}
+                  style={{
+                    width: "100%",
+                    justifyContent: "space-between",
+                    marginBottom: "2px",
+                  }}
                   onClick={() => {
+                    if (item.route) navigate(item.route);
                     if (item.megaType) {
-                      setMobileExpanded((p) => p === item.label ? null : item.label);
-                    } else {
-                      if (item.route) navigate(item.route);
-                      setMobileOpen(false);
+                      setMobileExpanded((p) =>
+                        p === item.label ? null : item.label,
+                      );
                     }
+                    if (!item.megaType) setMobileOpen(false);
                   }}
                 >
                   {item.label}
-                  {item.megaType && <ChevronDown open={mobileExpanded === item.label}/>}
+                  {item.megaType && (
+                    <ChevronDown open={mobileExpanded === item.label} />
+                  )}
                 </button>
 
-                {item.megaType === "services" && mobileExpanded === item.label && (
-                  <div className="ovza-mobile-sub">
-                    {servicesData.services.map((s) => (
-                      s.route ? (
-                        <Link key={s.label} to={s.route} onClick={() => setMobileOpen(false)}>{s.label}</Link>
-                      ) : (
-                        <button key={s.label} onClick={() => setMobileOpen(false)}>{s.label}</button>
-                      )
-                    ))}
-                    <div className="ovza-mobile-sub-label">Tools</div>
-                    {servicesData.tools.map((t) => (
-                      t.route ? (
-                        <Link key={t.label} to={t.route} onClick={() => setMobileOpen(false)}>{t.label}</Link>
-                      ) : (
-                        <button key={t.label} onClick={() => setMobileOpen(false)}>{t.label}</button>
-                      )
-                    ))}
-                  </div>
-                )}
-
-                {item.megaType === "jurisdictions" && mobileExpanded === item.label && (
-                  <div className="ovza-mobile-sub">
-                    {[
-                      { title: "The Americas", list: jurisdictionsData.americas },
-                      { title: "Asia Pacific",  list: jurisdictionsData.asiaPacific },
-                      { title: "Africa",        list: jurisdictionsData.africa },
-                    ].map(({ title, list }) => (
-                      <div key={title}>
-                        <div className="ovza-mobile-sub-label">{title}</div>
-                        {list.map((j) => (
-                          <button key={j.code} onClick={() => setMobileOpen(false)} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                            <FlagImg code={j.code} name={j.name}/> {j.name}
+                {item.megaType === "services" &&
+                  mobileExpanded === item.label && (
+                    <div className="ovza-mobile-sub">
+                      {servicesData.services.map((s) =>
+                        s.route ? (
+                          <Link
+                            key={s.label}
+                            to={s.route}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {s.label}
+                          </Link>
+                        ) : (
+                          <button
+                            key={s.label}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {s.label}
                           </button>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                )}
+                        ),
+                      )}
+                      <div className="ovza-mobile-sub-label">Tools</div>
+                      {servicesData.tools.map((t) =>
+                        t.route ? (
+                          <Link
+                            key={t.label}
+                            to={t.route}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {t.label}
+                          </Link>
+                        ) : (
+                          <button
+                            key={t.label}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {t.label}
+                          </button>
+                        ),
+                      )}
+                    </div>
+                  )}
 
-                {item.megaType === "resources" && mobileExpanded === item.label && (
-                  <div className="ovza-mobile-sub">
-                    {resourcesData.map((r) => (
-                      r.route ? (
-                        <Link key={r.label} to={r.route} onClick={() => setMobileOpen(false)}>{r.label}</Link>
-                      ) : (
-                        <button key={r.label} onClick={() => setMobileOpen(false)}>{r.label}</button>
-                      )
-                    ))}
-                  </div>
-                )}
+                {item.megaType === "jurisdictions" &&
+                  mobileExpanded === item.label && (
+                    <div className="ovza-mobile-sub">
+                      {[
+                        {
+                          title: "The Americas",
+                          list: jurisdictionsData.americas,
+                        },
+                        {
+                          title: "Asia Pacific",
+                          list: jurisdictionsData.asiaPacific,
+                        },
+                        { title: "Africa", list: jurisdictionsData.africa },
+                      ].map(({ title, list }) => (
+                        <div key={title}>
+                          <div className="ovza-mobile-sub-label">{title}</div>
+                          {list.map((j) => (
+                            <button
+                              key={j.code}
+                              onClick={() => setMobileOpen(false)}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                              }}
+                            >
+                              <FlagImg code={j.code} name={j.name} /> {j.name}
+                            </button>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                {item.megaType === "resources" &&
+                  mobileExpanded === item.label && (
+                    <div className="ovza-mobile-sub">
+                      {resourcesData.map((r) =>
+                        r.route ? (
+                          <Link
+                            key={r.label}
+                            to={r.route}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {r.label}
+                          </Link>
+                        ) : (
+                          <button
+                            key={r.label}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {r.label}
+                          </button>
+                        ),
+                      )}
+                    </div>
+                  )}
               </div>
             ))}
 
-            <div style={{ paddingTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
+            <div
+              style={{
+                paddingTop: "12px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "8px",
+              }}
+            >
               <button
                 className="ovza-track-btn"
                 style={{ justifyContent: "center" }}
-                onClick={() => { setMobileOpen(false); setTrackModalOpen(true); }}
+                onClick={() => {
+                  setMobileOpen(false);
+                  setTrackModalOpen(true);
+                }}
               >
                 <NavGlobeIcon /> Track Order
               </button>
               <button
                 className="ovza-contact-btn"
-                style={{ border: "1px solid rgba(255,255,255,0.15)", borderRadius: "8px", justifyContent: "center" }}
-                onClick={() => { setMobileOpen(false); navigate("/contact"); }}
+                style={{
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  borderRadius: "8px",
+                  justifyContent: "center",
+                }}
+                onClick={() => {
+                  setMobileOpen(false);
+                  navigate("/contact");
+                }}
               >
                 Contact Us
               </button>
@@ -820,13 +1177,15 @@ const Navbar = () => {
               >
                 {renderMega(item.megaType)}
               </div>,
-              document.body
+              document.body,
             )
-          : null
+          : null,
       )}
 
       {/* Track Order Modal */}
-      {trackModalOpen && <TrackOrderModal onClose={() => setTrackModalOpen(false)}/>}
+      {trackModalOpen && (
+        <TrackOrderModal onClose={() => setTrackModalOpen(false)} />
+      )}
     </>
   );
 };

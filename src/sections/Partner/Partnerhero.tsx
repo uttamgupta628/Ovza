@@ -16,7 +16,7 @@ const PartnerHero = () => {
       setTimeout(() => {
         el.style.opacity = "1";
         el.style.transform = "translateY(0)";
-      }, i * 120);
+      }, i * 160);
     });
   }, []);
 
@@ -25,6 +25,46 @@ const PartnerHero = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
+        /* ── Keyframes ─────────────────────────────────── */
+        @keyframes pulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(114,208,192,0.5); }
+          50%       { box-shadow: 0 0 0 6px rgba(114,208,192,0); }
+        }
+        @keyframes floatA {
+          0%, 100% { transform: rotate(180deg) scaleX(-1) translateY(0px);   }
+          50%       { transform: rotate(180deg) scaleX(-1) translateY(-18px); }
+        }
+        @keyframes floatB {
+          0%, 100% { transform: rotate(90deg) translateY(0px);   }
+          50%       { transform: rotate(90deg) translateY(14px); }
+        }
+        @keyframes floatC {
+          0%, 100% { transform: rotate(-60deg) scaleX(-1) translateY(0px);   }
+          50%       { transform: rotate(-60deg) scaleX(-1) translateY(-12px); }
+        }
+        @keyframes floatD {
+          0%, 100% { transform: rotate(30deg) translateY(0px);  }
+          50%       { transform: rotate(30deg) translateY(16px); }
+        }
+        @keyframes badgeShimmer {
+          0%   { background-position: -200% center; }
+          100% { background-position:  200% center; }
+        }
+        @keyframes gradientShift {
+          0%   { background-position: 0%   50%; }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0%   50%; }
+        }
+        @keyframes cardGlow {
+          0%, 100% { box-shadow: 0 4px 32px rgba(0,0,0,0.07); }
+          50%       { box-shadow: 0 8px 48px rgba(58,175,169,0.13); }
+        }
+        @keyframes dotBounce {
+          0%, 100% { transform: scaleY(1);   }
+          50%       { transform: scaleY(1.3); }
+        }
+
+        /* ── Base ──────────────────────────────────────── */
         .partner-section {
           min-height: calc(100vh - 64px);
           background: #f8fffe;
@@ -39,51 +79,50 @@ const PartnerHero = () => {
           text-align: center;
         }
 
-        /* Background blob images — top-left, top-right, bottom-right */
+        /* ── BG blobs — floating ───────────────────────── */
         .partner-bg-tl {
           position: absolute;
-          top: -40px;
-          left: -60px;
+          top: -40px; left: -60px;
           width: 260px;
           opacity: 0.35;
           pointer-events: none;
-          select: none;
-          transform: rotate(180deg) scaleX(-1);
+          animation: floatA 7s ease-in-out infinite;
         }
         .partner-bg-tr {
           position: absolute;
-          top: -20px;
-          right: -60px;
+          top: -20px; right: -60px;
           width: 220px;
           opacity: 0.3;
           pointer-events: none;
-          transform: rotate(90deg);
+          animation: floatB 9s ease-in-out infinite;
         }
         .partner-bg-bl {
           position: absolute;
-          bottom: -40px;
-          left: -40px;
+          bottom: -40px; left: -40px;
           width: 180px;
           opacity: 0.2;
           pointer-events: none;
-          transform: rotate(-60deg) scaleX(-1);
+          animation: floatC 8s ease-in-out infinite;
         }
         .partner-bg-br {
           position: absolute;
-          bottom: 20px;
-          right: -50px;
+          bottom: 20px; right: -50px;
           width: 200px;
           opacity: 0.25;
           pointer-events: none;
-          transform: rotate(30deg);
+          animation: floatD 10s ease-in-out infinite;
         }
 
-        /* Badge */
+        /* ── Badge ─────────────────────────────────────── */
         .partner-badge {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: #f0faf8;
+          background: linear-gradient(90deg,
+            #f0faf8 0%, #f0faf8 35%,
+            #d6f5f0 50%,
+            #f0faf8 65%, #f0faf8 100%);
+          background-size: 200% auto;
           border: 1px solid #c6ede7;
           border-radius: 50px;
           padding: 6px 16px;
@@ -91,21 +130,17 @@ const PartnerHero = () => {
           font-weight: 500;
           color: #2a9d8f;
           margin-bottom: 24px;
+          animation: badgeShimmer 3.5s linear infinite;
         }
         .partner-badge-dot {
-          width: 8px;
-          height: 8px;
+          width: 8px; height: 8px;
           border-radius: 50%;
           background: #72D0C0;
           flex-shrink: 0;
           animation: pulse 2s infinite;
         }
-        @keyframes pulse {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(114,208,192,0.5); }
-          50%       { box-shadow: 0 0 0 5px rgba(114,208,192,0); }
-        }
 
-        /* Heading */
+        /* ── Heading ───────────────────────────────────── */
         .partner-heading {
           font-size: clamp(32px, 4.5vw, 52px);
           font-weight: 800;
@@ -115,10 +150,15 @@ const PartnerHero = () => {
           max-width: 640px;
         }
         .partner-heading span {
-          color: #3aafa9;
+          background: linear-gradient(270deg, #3aafa9, #72D0C0, #2d9d97);
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: gradientShift 4s ease infinite;
         }
 
-        /* Subtext */
+        /* ── Subtext ───────────────────────────────────── */
         .partner-sub {
           font-size: 14px;
           font-weight: 400;
@@ -128,7 +168,7 @@ const PartnerHero = () => {
           margin: 0 auto 36px;
         }
 
-        /* Affiliate card */
+        /* ── Card ──────────────────────────────────────── */
         .partner-card {
           background: #ffffff;
           border: 1px solid #e5e7eb;
@@ -136,12 +176,20 @@ const PartnerHero = () => {
           padding: 36px 40px;
           max-width: 580px;
           width: 100%;
-          box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+          animation: cardGlow 4s ease-in-out infinite;
           opacity: 0;
           transform: translateY(24px);
-          transition: opacity 0.5s ease, transform 0.5s ease;
+          transition: opacity 0.55s ease, transform 0.55s ease;
           position: relative;
           z-index: 1;
+        }
+        .partner-card::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 20px;
+          background: linear-gradient(135deg, rgba(114,208,192,0.06) 0%, transparent 60%);
+          pointer-events: none;
         }
 
         .partner-card-title {
@@ -167,13 +215,14 @@ const PartnerHero = () => {
           color: #0F131E;
           outline: none;
           background: #f9fafb;
-          transition: border-color 0.2s, box-shadow 0.2s;
+          transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
         }
         .partner-input::placeholder { color: #9ca3af; }
         .partner-input:focus {
           border-color: #72D0C0;
-          box-shadow: 0 0 0 3px rgba(114,208,192,0.15);
+          box-shadow: 0 0 0 3px rgba(114,208,192,0.18);
           background: #fff;
+          transform: translateY(-1px);
         }
 
         .partner-submit-btn {
@@ -181,7 +230,7 @@ const PartnerHero = () => {
           align-items: center;
           gap: 8px;
           padding: 13px 24px;
-          background: #3aafa9;
+          background: linear-gradient(135deg, #3aafa9, #2d9d97);
           color: #ffffff;
           font-size: 14px;
           font-weight: 600;
@@ -190,12 +239,25 @@ const PartnerHero = () => {
           border-radius: 10px;
           cursor: pointer;
           white-space: nowrap;
-          transition: background 0.2s, transform 0.15s;
+          transition: transform 0.15s, box-shadow 0.2s;
           flex-shrink: 0;
+          position: relative;
+          overflow: hidden;
+        }
+        .partner-submit-btn::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
+          transform: translateX(-100%);
+          transition: transform 0.4s ease;
         }
         .partner-submit-btn:hover {
-          background: #2d9d97;
-          transform: translateY(-1px);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(58,175,169,0.35);
+        }
+        .partner-submit-btn:hover::after {
+          transform: translateX(100%);
         }
 
         .partner-referral-link {
@@ -209,16 +271,17 @@ const PartnerHero = () => {
           text-decoration: underline;
           text-underline-offset: 2px;
           cursor: pointer;
+          transition: color 0.15s;
         }
         .partner-referral-link a:hover { color: #2d9d97; }
 
-        /* Bottom section */
+        /* ── Bottom ────────────────────────────────────── */
         .partner-bottom {
           margin-top: 48px;
           max-width: 480px;
           opacity: 0;
           transform: translateY(20px);
-          transition: opacity 0.5s ease, transform 0.5s ease;
+          transition: opacity 0.55s ease, transform 0.55s ease;
           position: relative;
           z-index: 1;
         }
@@ -259,60 +322,75 @@ const PartnerHero = () => {
           border: 2px solid #3aafa9;
           border-radius: 50px;
           cursor: pointer;
-          transition: background 0.2s, color 0.2s, transform 0.15s;
+          transition: background 0.25s, color 0.25s, transform 0.15s, box-shadow 0.25s;
+          position: relative;
+          overflow: hidden;
         }
-        .partner-contact-btn:hover {
+        .partner-contact-btn::before {
+          content: '';
+          position: absolute;
+          inset: 0;
           background: #3aafa9;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.25s ease;
+          z-index: 0;
+        }
+        .partner-contact-btn span { position: relative; z-index: 1; }
+        .partner-contact-btn:hover::before { transform: scaleX(1); }
+        .partner-contact-btn:hover {
           color: #ffffff;
-          transform: translateY(-1px);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(58,175,169,0.28);
         }
 
-        /* Heading animated */
+        /* ── Heading animated wrap ──────────────────────── */
         .partner-heading-wrap {
           opacity: 0;
           transform: translateY(20px);
-          transition: opacity 0.5s ease, transform 0.5s ease;
+          transition: opacity 0.55s ease, transform 0.55s ease;
           position: relative;
           z-index: 1;
         }
 
-        /* Chat widget */
-        .partner-chat-widget {
-          position: fixed;
-          bottom: 24px;
-          right: 24px;
-          background: #ffffff;
-          border-radius: 14px;
-          box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-          padding: 12px 18px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          font-family: 'Poppins', sans-serif;
-          z-index: 100;
-          animation: chatIn 0.4s 0.8s ease both;
-          cursor: pointer;
-          transition: box-shadow 0.2s;
-        }
-        .partner-chat-widget:hover {
-          box-shadow: 0 12px 32px rgba(0,0,0,0.15);
-        }
-        @keyframes chatIn {
-          from { opacity: 0; transform: translateY(12px); }
-          to   { opacity: 1; transform: translateY(0); }
+        /* ── Responsive ────────────────────────────────── */
+        @media (max-width: 768px) {
+          .partner-section {
+            padding: 48px 20px 64px;
+          }
+          .partner-bg-tl { width: 160px; top: -20px; left: -30px; }
+          .partner-bg-tr { width: 140px; top: -10px; right: -30px; }
+          .partner-bg-bl { width: 120px; bottom: -20px; left: -20px; }
+          .partner-bg-br { width: 130px; bottom: 10px;  right: -25px; }
+          .partner-card  { padding: 28px 24px; }
+          .partner-form  {
+            flex-direction: column;
+            gap: 10px;
+          }
+          .partner-submit-btn {
+            width: 100%;
+            justify-content: center;
+          }
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-          .partner-form { flex-direction: column; }
-          .partner-submit-btn { width: 100%; justify-content: center; }
-          .partner-card { padding: 24px 20px; }
+        @media (max-width: 480px) {
+          .partner-section { padding: 40px 16px 56px; }
+          .partner-bg-tl, .partner-bg-tr,
+          .partner-bg-bl, .partner-bg-br { width: 100px; opacity: 0.18; }
+          .partner-card { padding: 24px 16px; border-radius: 14px; }
+          .partner-heading { font-size: clamp(26px, 7vw, 36px); }
+          .partner-sub { font-size: 13px; }
+          .partner-card-title { font-size: 16px; }
+          .partner-network-title { font-size: 19px; }
+          .partner-input { padding: 12px 14px; font-size: 13px; }
+          .partner-submit-btn { padding: 12px 20px; font-size: 13px; }
+          .partner-bottom { margin-top: 36px; }
         }
       `}</style>
 
       <section className="partner-section">
 
-        {/* Background blobs using herostart.png */}
+        {/* Background blobs */}
         <img src={heroStart} alt="" aria-hidden className="partner-bg-tl" />
         <img src={heroStart} alt="" aria-hidden className="partner-bg-tr" />
         <img src={heroStart} alt="" aria-hidden className="partner-bg-bl" />
@@ -320,7 +398,6 @@ const PartnerHero = () => {
 
         {/* Heading block */}
         <div className="partner-heading-wrap" ref={headingRef}>
-          {/* Badge */}
           <div className="partner-badge">
             <span className="partner-badge-dot" />
             Partner Program Now Open
@@ -376,23 +453,10 @@ const PartnerHero = () => {
             If you operate as a law firm, registered agent, or service provider
             in an offshore jurisdiction, we invite you to explore cooperation.
           </p>
-          <button className="partner-contact-btn">Contact Us</button>
+          <button className="partner-contact-btn">
+            <span>Contact Us</span>
+          </button>
         </div>
-
-        {/* Chat widget */}
-        {/* <div className="partner-chat-widget">
-          <div style={{
-            width: "28px", height: "28px", borderRadius: "8px",
-            background: "rgba(114,208,192,0.15)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <svg width="14" height="14" fill="none" stroke="#3aafa9" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-          </div>
-          <span style={{ fontSize: "13px", fontWeight: 500, color: "#374151" }}>Chat with us</span>
-        </div> */}
 
       </section>
     </>

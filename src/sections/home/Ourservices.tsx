@@ -1,4 +1,34 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+
+/* ─── Animation hook: triggers when element enters viewport ─── */
+function useInView(threshold = 0.15) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, inView };
+}
+
+/* ─── Reduced-motion check ─── */
+function prefersReducedMotion() {
+  return typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
 interface OurServicesProps {
   containerImage: string;
@@ -88,34 +118,150 @@ const OurServices: React.FC<OurServicesProps> = ({
     },
   ];
 
+  const { ref: headerRef, inView: headerInView } = useInView(0.2);
+  const reduced = prefersReducedMotion();
+
   return (
-    <section className="w-full bg-white py-16">
-      {/* Fixed 1276px container centred */}
-      <div className="mx-auto w-full max-w-[1276px] px-[118px]">
+    <>
+      {/* ── Keyframe styles injected once ── */}
+      <style>{`
+        @keyframes ovza-fade-up {
+          from { opacity: 0; transform: translateY(32px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes ovza-fade-left {
+          from { opacity: 0; transform: translateX(-32px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes ovza-fade-right {
+          from { opacity: 0; transform: translateX(32px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes ovza-float {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-8px); }
+        }
+        @keyframes ovza-pulse-ring {
+          0%   { box-shadow: 0 0 0 0px rgba(52,190,134,0.25); }
+          70%  { box-shadow: 0 0 0 12px rgba(52,190,134,0); }
+          100% { box-shadow: 0 0 0 0px rgba(52,190,134,0); }
+        }
+        .ovza-card {
+          transition: transform 0.35s cubic-bezier(.22,.68,0,1.2),
+                      box-shadow 0.35s ease;
+        }
+        .ovza-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 16px 48px rgba(52,190,134,0.12);
+        }
+        .ovza-btn {
+          position: relative;
+          overflow: hidden;
+          transition: background 0.22s ease, transform 0.18s ease, box-shadow 0.22s ease;
+        }
+        .ovza-btn::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: rgba(255,255,255,0.18);
+          opacity: 0;
+          transition: opacity 0.22s ease;
+        }
+        .ovza-btn:hover::after { opacity: 1; }
+        .ovza-btn:hover {
+          background: #2aa876 !important;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(42,168,118,0.38);
+        }
+        .ovza-btn:active { transform: translateY(0px); }
+        .ovza-icon-wrap {
+          transition: transform 0.3s ease;
+        }
+        .ovza-card:hover .ovza-icon-wrap {
+          animation: ovza-pulse-ring 1.2s ease-out infinite;
+        }
+        /* Float animation on image circles */
+        .ovza-img-float {
+          animation: ovza-float 4s ease-in-out infinite;
+        }
 
-        {/* Section Header */}
-        <div className="text-center mb-14">
-          <h2 className="text-[32px] font-bold text-gray-900 mb-3 leading-tight">
-            Our Services
-          </h2>
-          <p className="text-sm text-gray-500 max-w-[480px] mx-auto leading-relaxed">
-            Choose OVZA now to ensure a seamless company formation process and legal
-            compliance, guaranteeing a smooth experience as you fulfil your company
-            objectives effectively.
-          </p>
-        </div>
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+          .ovza-grid { grid-template-columns: 1fr !important; }
+          .ovza-grid-reverse { direction: ltr !important; }
+          .ovza-img-col { padding: 24px 24px 0 !important; }
+          .ovza-text-col { padding: 24px !important; }
+          .ovza-connector { display: none !important; }
+          .ovza-connector-mobile {
+            display: flex !important;
+          }
+          .ovza-outer { padding-left: 20px !important; padding-right: 20px !important; }
+        }
+        @media (max-width: 600px) {
+          .ovza-header h2 { font-size: clamp(22px, 5vw, 32px) !important; }
+          .ovza-outer { padding-left: 12px !important; padding-right: 12px !important; }
+        }
 
-        {/* Cards + Connectors — no connector after last card */}
-        <div className="flex flex-col">
-          {services.map((service, idx) => (
-            <React.Fragment key={service.title}>
-              <ServiceCard {...service} />
-              {idx < services.length - 1 && <DashedConnector />}
-            </React.Fragment>
-          ))}
+        .ovza-connector-mobile {
+          display: none;
+          align-items: center;
+          justify-content: center;
+          height: 60px;
+        }
+      `}</style>
+
+      <section className="w-full bg-white py-16">
+        <div
+          className="mx-auto w-full max-w-[1276px] ovza-outer"
+          style={{ paddingLeft: "118px", paddingRight: "118px" }}
+        >
+          {/* ── Section Header with fade-up ── */}
+          <div
+            ref={headerRef}
+            className="text-center mb-14 ovza-header"
+            style={
+              !reduced
+                ? {
+                    opacity: headerInView ? 1 : 0,
+                    transform: headerInView ? "translateY(0)" : "translateY(28px)",
+                    transition: "opacity 0.7s ease, transform 0.7s ease",
+                  }
+                : {}
+            }
+          >
+            <h2 className="text-[32px] font-bold text-gray-900 mb-3 leading-tight">
+              Our Services
+            </h2>
+            <p className="text-sm text-gray-500 max-w-[480px] mx-auto leading-relaxed">
+              Choose OVZA now to ensure a seamless company formation process and legal
+              compliance, guaranteeing a smooth experience as you fulfil your company
+              objectives effectively.
+            </p>
+          </div>
+
+          {/* ── Cards ── */}
+          <div className="flex flex-col">
+            {services.map((service, idx) => (
+              <React.Fragment key={service.title}>
+                <ServiceCard {...service} index={idx} reduced={reduced} />
+                {idx < services.length - 1 && (
+                  <>
+                    {/* Desktop connector */}
+                    <div className="ovza-connector">
+                      <DashedConnector />
+                    </div>
+                    {/* Mobile connector */}
+                    <div className="ovza-connector-mobile">
+                      <MobileConnector />
+                    </div>
+                  </>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
@@ -130,6 +276,8 @@ interface ServiceCardProps {
   titleBelow: boolean;
   description: React.ReactNode;
   ctaLabel: string;
+  index: number;
+  reduced: boolean;
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
@@ -141,10 +289,31 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   titleBelow,
   description,
   ctaLabel,
+  index,
+  reduced,
 }) => {
+  const { ref, inView } = useInView(0.12);
+
+  const textAnim = imagePosition === "right" ? "ovza-fade-left" : "ovza-fade-right";
+  const imgAnim  = imagePosition === "right" ? "ovza-fade-right" : "ovza-fade-left";
+  const delay    = index * 80;
+
   const textBlock = (
-    <div className="flex flex-col justify-center gap-4 p-[35px]">
-      <div className="w-8 h-8 flex-shrink-0">{icon}</div>
+    <div
+      className="ovza-text-col flex flex-col justify-center gap-4"
+      style={{
+        padding: "35px",
+        ...(!reduced && inView
+          ? {
+              animation: `${textAnim} 0.65s ease both`,
+              animationDelay: `${delay}ms`,
+            }
+          : !reduced
+          ? { opacity: 0 }
+          : {}),
+      }}
+    >
+      <div className="w-8 h-8 flex-shrink-0 ovza-icon-wrap">{icon}</div>
       {titleBelow ? (
         <>
           {description}
@@ -157,7 +326,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         </>
       )}
       <div>
-        <button className="bg-[#34BE86] hover:bg-[#2aa876] text-white text-xs font-medium px-5 py-2.5 rounded-full transition-colors duration-200 whitespace-nowrap">
+        <button
+          className="ovza-btn bg-[#34BE86] text-white text-xs font-medium px-5 py-2.5 rounded-full whitespace-nowrap"
+        >
           {ctaLabel}
         </button>
       </div>
@@ -165,13 +336,27 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   );
 
   const imageBlock = (
-    <div className="flex items-center justify-center p-[35px]">
+    <div
+      className="ovza-img-col flex items-center justify-center"
+      style={{
+        padding: "35px",
+        ...(!reduced && inView
+          ? {
+              animation: `${imgAnim} 0.65s ease both`,
+              animationDelay: `${delay + 80}ms`,
+            }
+          : !reduced
+          ? { opacity: 0 }
+          : {}),
+      }}
+    >
       <div className="relative w-full max-w-[260px] aspect-square">
         <div className="absolute inset-0 rounded-full bg-[#E6F7F1]" />
         <img
           src={image}
           alt={imageAlt}
-          className="relative z-10 w-full h-full object-contain"
+          className={`relative z-10 w-full h-full object-contain${!reduced ? " ovza-img-float" : ""}`}
+          style={!reduced ? { animationDelay: `${index * 0.4}s` } : {}}
         />
       </div>
     </div>
@@ -179,8 +364,12 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 
   return (
     <div
-      className="grid grid-cols-2 rounded-[25px] overflow-hidden bg-white"
-      style={{ border: "1px solid #34BE8647" }}
+      ref={ref}
+      className="ovza-card ovza-grid grid rounded-[25px] overflow-hidden bg-white"
+      style={{
+        border: "1px solid #34BE8647",
+        gridTemplateColumns: "1fr 1fr",
+      }}
     >
       {imagePosition === "left" ? (
         <>
@@ -197,66 +386,34 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   );
 };
 
-/* ─── DashedConnector — full width, linear gradient border from Figma ─── */
-// Width: 680.5px centred, Height: 117.33px, Border: 4.11px dashed
-// Gradient: #42D4A2 15% → #42D4A2 100% → #42D4A2 15% (fades at edges)
-
+/* ─── Desktop DashedConnector ─── */
 const DashedConnector: React.FC = () => (
   <div className="flex items-center justify-center" style={{ height: "117.33px" }}>
-    <div
-      style={{
-        width: "680.5px",
-        height: "100%",
-        position: "relative",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {/* SVG dashed line with gradient — simulates the Figma linear gradient border */}
-      <svg
-        width="680"
-        height="118"
-        viewBox="0 0 680 118"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ position: "absolute" }}
-      >
+    <div style={{ width: "680.5px", height: "100%", position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <svg width="680" height="118" viewBox="0 0 680 118" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute" }}>
         <defs>
           <linearGradient id="dashGrad" x1="0" y1="0" x2="680" y2="0" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#42D4A2" stopOpacity="0.15" />
-            <stop offset="50%" stopColor="#42D4A2" stopOpacity="1" />
+            <stop offset="0%"   stopColor="#42D4A2" stopOpacity="0.15" />
+            <stop offset="50%"  stopColor="#42D4A2" stopOpacity="1" />
             <stop offset="100%" stopColor="#42D4A2" stopOpacity="0.15" />
           </linearGradient>
         </defs>
-        {/* Left vertical segment */}
-        <line
-          x1="0" y1="0" x2="0" y2="118"
-          stroke="url(#dashGrad)"
-          strokeWidth="4.11"
-          strokeDasharray="9.39 9.39"
-        />
-        {/* Bottom horizontal segment */}
-        <line
-          x1="0" y1="118" x2="680" y2="118"
-          stroke="url(#dashGrad)"
-          strokeWidth="4.11"
-          strokeDasharray="9.39 9.39"
-        />
-        {/* Right vertical segment */}
-        <line
-          x1="680" y1="118" x2="680" y2="0"
-          stroke="url(#dashGrad)"
-          strokeWidth="4.11"
-          strokeDasharray="9.39 9.39"
-        />
+        <line x1="0"   y1="0"   x2="0"   y2="118" stroke="url(#dashGrad)" strokeWidth="4.11" strokeDasharray="9.39 9.39" />
+        <line x1="0"   y1="118" x2="680" y2="118"  stroke="url(#dashGrad)" strokeWidth="4.11" strokeDasharray="9.39 9.39" />
+        <line x1="680" y1="118" x2="680" y2="0"    stroke="url(#dashGrad)" strokeWidth="4.11" strokeDasharray="9.39 9.39" />
       </svg>
     </div>
   </div>
 );
 
-/* ─── Icons ─── */
+/* ─── Mobile connector: simple short vertical dashed line ─── */
+const MobileConnector: React.FC = () => (
+  <svg width="4" height="48" viewBox="0 0 4 48" fill="none">
+    <line x1="2" y1="0" x2="2" y2="48" stroke="#42D4A2" strokeWidth="3" strokeDasharray="7 6" strokeLinecap="round" />
+  </svg>
+);
 
+/* ─── Icons ─── */
 const OffshoreIcon = () => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
     <circle cx="14" cy="14" r="13" stroke="#34BE86" strokeWidth="1.5" />

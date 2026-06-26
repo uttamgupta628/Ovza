@@ -7,7 +7,6 @@ const steps = [
     description:
       "Enter your email to receive your unique affiliate link and dashboard access within 24 hours. No lengthy forms. No complications.",
     icon: (
-      // Envelope with check
       <svg width="40" height="40" fill="none" stroke="#1DB38D" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6}
           d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -23,7 +22,6 @@ const steps = [
     description:
       "Leverage your content, mailing list, social channels, or personal referrals. Engage your audience in your own authentic way.",
     icon: (
-      // Person with plus
       <svg width="40" height="40" fill="none" stroke="#1DB38D" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6}
           d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h11" />
@@ -38,7 +36,6 @@ const steps = [
     description:
       "Earn commission on every qualified client with full transparency and real time updates delivered directly to you via our innovative automated email system.",
     icon: (
-      // Document with plus
       <svg width="40" height="40" fill="none" stroke="#1DB38D" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6}
           d="M9 12h6m-3-3v6m-6 4h12a2 2 0 002-2V7a2 2 0 00-2-2h-5.586a1 1 0 00-.707.293l-2.414 2.414A1 1 0 006 8.414V19a2 2 0 002 2z" />
@@ -80,9 +77,9 @@ const StepCard = ({
 
   return (
     <div style={{ position: "relative", flex: 1, display: "flex", alignItems: "stretch" }}>
-      {/* Card */}
       <div
         ref={ref}
+        className="hiw-card"
         style={{
           flex: 1,
           background: "rgba(255,255,255,0.75)",
@@ -97,12 +94,12 @@ const StepCard = ({
           gap: "20px",
           opacity: 0,
           transform: "translateY(28px) scale(0.97)",
-          transition: "opacity 0.55s ease, transform 0.55s ease",
+          transition: "opacity 0.55s ease, transform 0.55s ease, box-shadow 0.3s ease, border-color 0.3s ease",
           boxShadow: "0 4px 24px rgba(29,179,141,0.07)",
         }}
       >
         {/* Step number badge */}
-        <div style={{
+        <div className="hiw-badge" style={{
           position: "absolute",
           top: "-22px",
           left: "50%",
@@ -116,6 +113,7 @@ const StepCard = ({
           justifyContent: "center",
           boxShadow: "0 4px 14px rgba(29,179,141,0.4)",
           zIndex: 2,
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
         }}>
           <span style={{
             color: "white",
@@ -129,15 +127,24 @@ const StepCard = ({
 
         {/* Icon circle */}
         <div style={{ position: "relative", marginTop: "16px" }}>
-          {/* Outer dashed ring */}
-          <svg width="120" height="120" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 0 }}>
+          {/* Spinning dashed ring */}
+          <svg
+            className="hiw-ring"
+            width="120" height="120"
+            style={{
+              position: "absolute",
+              top: "50%", left: "50%",
+              transform: "translate(-50%,-50%)",
+              zIndex: 0,
+            }}
+          >
             <circle cx="60" cy="60" r="56" fill="none"
               stroke="#1DB38D" strokeWidth="1.5"
               strokeDasharray="6 5"
               opacity="0.4" />
           </svg>
           {/* Inner filled circle */}
-          <div style={{
+          <div className="hiw-icon-circle" style={{
             width: "90px",
             height: "90px",
             borderRadius: "50%",
@@ -147,6 +154,7 @@ const StepCard = ({
             justifyContent: "center",
             position: "relative",
             zIndex: 1,
+            transition: "background 0.3s ease, transform 0.3s ease",
           }}>
             {step.icon}
           </div>
@@ -176,11 +184,11 @@ const StepCard = ({
         </p>
       </div>
 
-      {/* Horizontal connector line between cards */}
+      {/* Horizontal connector */}
       {!isLast && (
-        <div style={{
+        <div className="hiw-connector" style={{
           position: "absolute",
-          top: "calc(50% - 60px)", // align with icon center
+          top: "calc(50% - 60px)",
           right: "-24px",
           width: "48px",
           height: "2px",
@@ -222,10 +230,69 @@ const HowItWorks = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
+        /* ── Keyframes ─────────────────────────────────── */
         @keyframes hiw-pulse {
           0%, 100% { box-shadow: 0 0 0 0 rgba(29,179,141,0.4); }
           50%       { box-shadow: 0 0 0 10px rgba(29,179,141,0); }
         }
+        @keyframes hiw-ring-spin {
+          from { transform: translate(-50%,-50%) rotate(0deg); }
+          to   { transform: translate(-50%,-50%) rotate(360deg); }
+        }
+        @keyframes hiw-badge-pop {
+          0%   { transform: translateX(-50%) scale(1); }
+          40%  { transform: translateX(-50%) scale(1.18); }
+          100% { transform: translateX(-50%) scale(1); }
+        }
+        @keyframes hiw-gradient-shift {
+          0%   { background-position: 0%   50%; }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0%   50%; }
+        }
+        @keyframes hiw-shimmer {
+          0%   { background-position: -200% center; }
+          100% { background-position:  200% center; }
+        }
+        @keyframes hiw-connector-flow {
+          0%   { background-position: 0%   0; }
+          100% { background-position: 200% 0; }
+        }
+        @keyframes hiw-float {
+          0%, 100% { transform: translateY(0px); }
+          50%       { transform: translateY(-6px); }
+        }
+        @keyframes hiw-btn-shine {
+          0%   { left: -60%; }
+          100% { left: 140%; }
+        }
+
+        /* ── Card hover ────────────────────────────────── */
+        .hiw-card:hover {
+          box-shadow: 0 12px 40px rgba(29,179,141,0.16) !important;
+          border-color: rgba(29,179,141,0.38) !important;
+          transform: translateY(-4px) scale(1) !important;
+        }
+        .hiw-card:hover .hiw-ring {
+          animation: hiw-ring-spin 8s linear infinite !important;
+        }
+        .hiw-card:hover .hiw-icon-circle {
+          background: linear-gradient(135deg, rgba(114,208,192,0.38) 0%, rgba(29,179,141,0.22) 100%) !important;
+          transform: scale(1.06) !important;
+        }
+        .hiw-card:hover .hiw-badge {
+          animation: hiw-badge-pop 0.4s ease forwards !important;
+          box-shadow: 0 6px 20px rgba(29,179,141,0.55) !important;
+        }
+
+        /* ── Connector animated flow ───────────────────── */
+        .hiw-connector {
+          background: linear-gradient(90deg,
+            #1DB38D 0%, #72D0C0 50%, #1DB38D 100%) !important;
+          background-size: 200% 100% !important;
+          animation: hiw-connector-flow 2s linear infinite !important;
+        }
+
+        /* ── CTA button ────────────────────────────────── */
         .hiw-cta-btn {
           display: inline-flex;
           align-items: center;
@@ -242,16 +309,50 @@ const HowItWorks = () => {
           transition: transform 0.2s, box-shadow 0.2s;
           animation: hiw-pulse 2.5s ease-in-out infinite;
           text-decoration: none;
+          position: relative;
+          overflow: hidden;
+        }
+        .hiw-cta-btn::after {
+          content: '';
+          position: absolute;
+          top: 0; left: -60%;
+          width: 40%; height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+          transform: skewX(-20deg);
+          animation: hiw-btn-shine 3s ease-in-out infinite;
         }
         .hiw-cta-btn:hover {
           transform: translateY(-2px);
           box-shadow: 0 8px 28px rgba(29,179,141,0.45);
+          animation: none;
         }
         .hiw-cta-btn:active { transform: translateY(0); }
 
+        /* ── Heading gradient text ─────────────────────── */
+        .hiw-heading-gradient {
+          background: linear-gradient(270deg, #1DB38D, #72D0C0, #0e9e7a);
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: hiw-gradient-shift 4s ease infinite;
+        }
+
+        /* ── Floating cards on mobile ──────────────────── */
         @media (max-width: 768px) {
-          .hiw-cards { flex-direction: column !important; }
+          .hiw-cards { flex-direction: column !important; gap: 40px !important; }
           .hiw-connector { display: none !important; }
+          .hiw-card { animation: hiw-float 4s ease-in-out infinite !important; }
+          .hiw-card:nth-child(1) { animation-delay: 0s !important; }
+          .hiw-card:nth-child(2) { animation-delay: 0.8s !important; }
+          .hiw-card:nth-child(3) { animation-delay: 1.6s !important; }
+          /* Override float when card is still hidden (opacity 0) */
+          .hiw-card[style*="opacity: 0"] { animation: none !important; }
+        }
+
+        @media (max-width: 480px) {
+          .hiw-card { padding: 36px 20px 28px !important; border-radius: 16px !important; }
+          .hiw-cta-btn { padding: 14px 28px; font-size: 15px; }
         }
       `}</style>
 
@@ -298,11 +399,11 @@ const HowItWorks = () => {
               margin: "0 0 16px",
               fontSize: "clamp(28px, 4vw, 46px)",
               fontWeight: 800,
-              color: "#0F131E",
               fontFamily: "'Poppins', sans-serif",
               lineHeight: 1.15,
             }}>
-              Start Earning in 3 Simple Steps
+              <span className="hiw-heading-gradient">Start Earning</span>{" "}
+              <span style={{ color: "#0F131E" }}>in 3 Simple Steps</span>
             </h2>
             <p style={{
               margin: 0,

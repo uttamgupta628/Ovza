@@ -4,8 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 // @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 
 interface VideoAndNewsletterProps {
-  videoSrc?: string;        // your video file
-  newsletterImage?: string; // illustration on the right of newsletter
+  videoSrc?: string;
+  newsletterImage?: string;
 }
 
 /* ── useInView ── */
@@ -24,6 +24,10 @@ function useInView(threshold = 0.15) {
   }, [threshold]);
   return { ref, visible };
 }
+
+/* ── Reduced motion ── */
+const reduced = typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
   videoSrc,
@@ -54,45 +58,168 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
   return (
     <>
       <style>{`
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(28px); }
+        /* ── Keyframes ── */
+        @keyframes vn-fade-up {
+          from { opacity: 0; transform: translateY(32px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        @keyframes fadeIn {
+        @keyframes vn-fade-in {
           from { opacity: 0; }
           to   { opacity: 1; }
         }
-        .vu-fade { opacity: 0; }
-        .vu-fade.go { animation: fadeUp 0.6s ease forwards; }
-        .vu-fi { opacity: 0; }
-        .vu-fi.go { animation: fadeIn 0.7s ease forwards; }
+        @keyframes vn-fade-left {
+          from { opacity: 0; transform: translateX(-28px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes vn-fade-right {
+          from { opacity: 0; transform: translateX(28px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes vn-float {
+          0%, 100% { transform: translateY(0); }
+          50%       { transform: translateY(-8px); }
+        }
+        @keyframes vn-shimmer {
+          0%   { background-position: -400px 0; }
+          100% { background-position: 400px 0; }
+        }
+        @keyframes vn-ring-pulse {
+          0%   { box-shadow: 0 0 0 0 rgba(52,190,134,0.45); }
+          70%  { box-shadow: 0 0 0 14px rgba(52,190,134,0); }
+          100% { box-shadow: 0 0 0 0 rgba(52,190,134,0); }
+        }
+        @keyframes vn-spin-slow {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
 
-        .vu-resource-card {
+        /* ── Animation helpers ── */
+        .vn-fade-up   { opacity: 0; }
+        .vn-fade-left { opacity: 0; }
+        .vn-fade-right{ opacity: 0; }
+        .vn-fade-in   { opacity: 0; }
+
+        .vn-go-up    { animation: vn-fade-up    0.65s ease forwards; }
+        .vn-go-left  { animation: vn-fade-left  0.65s ease forwards; }
+        .vn-go-right { animation: vn-fade-right 0.65s ease forwards; }
+        .vn-go-in    { animation: vn-fade-in    0.7s  ease forwards; }
+
+        /* ── Card hover ── */
+        .vn-resource-card {
+          transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+          cursor: pointer;
+        }
+        .vn-resource-card:hover {
+          transform: translateY(-4px) scale(1.015);
+          box-shadow: 0 10px 28px rgba(52,190,134,0.22) !important;
+          background: rgba(255,255,255,0.92) !important;
+        }
+
+        /* ── Play button ── */
+        .vn-play-btn {
           transition: transform 0.2s ease, box-shadow 0.2s ease;
           cursor: pointer;
         }
-        .vu-resource-card:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 8px 24px rgba(52,190,134,0.18) !important;
+        .vn-play-btn:hover {
+          transform: scale(1.12);
+          animation: vn-ring-pulse 1s ease-out infinite;
         }
-        .vu-play-btn {
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+        /* ── Video container shimmer on hover ── */
+        .vn-video-wrap {
+          transition: box-shadow 0.3s ease;
+        }
+        .vn-video-wrap:hover {
+          box-shadow: 0 8px 36px rgba(52,190,134,0.22) !important;
+        }
+
+        /* ── Subscribe button ── */
+        .vn-sub-btn {
+          transition: background 0.22s ease, transform 0.18s ease, box-shadow 0.22s ease;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+        }
+        .vn-sub-btn::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: rgba(255,255,255,0.16);
+          opacity: 0;
+          transition: opacity 0.2s ease;
+        }
+        .vn-sub-btn:hover::after { opacity: 1; }
+        .vn-sub-btn:hover {
+          background: #2aa876 !important;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(42,168,118,0.38);
+        }
+        .vn-sub-btn:active { transform: translateY(0); }
+
+        /* ── Social icons ── */
+        .vn-social-icon {
+          transition: transform 0.2s ease, opacity 0.2s ease, filter 0.2s ease;
           cursor: pointer;
         }
-        .vu-play-btn:hover {
-          transform: scale(1.1);
-          box-shadow: 0 0 0 8px rgba(52,190,134,0.2);
+        .vn-social-icon:hover {
+          transform: scale(1.25) translateY(-2px);
+          opacity: 0.8;
+          filter: drop-shadow(0 3px 6px rgba(52,190,134,0.35));
         }
-        .vu-sub-btn {
-          transition: background 0.2s ease;
-          cursor: pointer;
+
+        /* ── Float for illustration ── */
+        .vn-float {
+          animation: vn-float 4s ease-in-out infinite;
         }
-        .vu-sub-btn:hover { background: #2aa876 !important; }
-        .vu-social-icon {
-          transition: transform 0.2s ease, opacity 0.2s ease;
-          cursor: pointer;
+
+        /* ── Input focus ring ── */
+        .vn-email-input:focus {
+          outline: none;
+          border-color: rgba(52,190,134,0.7) !important;
+          box-shadow: 0 0 0 3px rgba(52,190,134,0.15);
         }
-        .vu-social-icon:hover { transform: scale(1.2); opacity: 0.75; }
+
+        /* ── Success badge pop-in ── */
+        @keyframes vn-pop {
+          0%   { transform: scale(0.8); opacity: 0; }
+          70%  { transform: scale(1.05); }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        .vn-success { animation: vn-pop 0.4s ease forwards; }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+          .vn-section1-inner { padding: 0 20px !important; }
+          .vn-headline h2 { line-height: 1.35 !important; }
+          .vn-video-row { flex-direction: column !important; }
+          .vn-resource-col {
+            width: 100% !important;
+            flex-direction: row !important;
+            gap: 12px !important;
+          }
+          .vn-resource-col > div { flex: 1 !important; }
+          .vn-newsletter-inner {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+          }
+          .vn-newsletter-img {
+            width: 120px !important;
+            align-self: center !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .vn-social-row { flex-wrap: wrap !important; gap: 14px !important; }
+          .vn-sub-row { flex-direction: column !important; gap: 10px !important; }
+          .vn-sub-row input {
+            border-radius: 999px !important;
+            border-right: 1px solid rgba(52,190,134,0.35) !important;
+          }
+          .vn-sub-row button {
+            border-radius: 999px !important;
+            width: 100% !important;
+            padding: 11px 0 !important;
+          }
+        }
       `}</style>
 
       {/* ═══════════════════════════════════════════
@@ -101,28 +228,23 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
       <section style={{ backgroundColor: "#9FEFE3", paddingTop: "64px", paddingBottom: "64px" }}>
         <div
           ref={section1Ref}
-          style={{
-            maxWidth: "1265px",
-            margin: "0 auto",
-            padding: "0 clamp(20px,5vw,118px)",
-          }}
+          className="vn-section1-inner"
+          style={{ maxWidth: "1265px", margin: "0 auto", padding: "0 clamp(20px,5vw,118px)" }}
         >
-          {/* Headline — Poppins Bold 52px / line-height 67.6px */}
+          {/* Headline */}
           <div
-            className={`vu-fade ${s1Visible ? "go" : ""}`}
+            className={`vn-headline vn-fade-up ${!reduced && s1Visible ? "vn-go-up" : ""}`}
             style={{ width: "100%", marginBottom: "40px" }}
           >
-            <h2
-              style={{
-                fontFamily: "'Poppins', sans-serif",
-                fontSize: "clamp(28px, 4vw, 52px)",
-                fontWeight: 700,
-                lineHeight: "67.6px",
-                letterSpacing: "0%",
-                color: "#0a1f1a",
-                margin: 0,
-              }}
-            >
+            <h2 style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: "clamp(22px, 4vw, 52px)",
+              fontWeight: 700,
+              lineHeight: "67.6px",
+              letterSpacing: "0%",
+              color: "#0a1f1a",
+              margin: 0,
+            }}>
               Cut through bureaucracy with OVZA's step-by-step video guide,{" "}
               <span style={{ color: "#0a6b48" }}>
                 tailored to expedite your offshore company registration and set you on a path of international growth.
@@ -131,15 +253,13 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
           </div>
 
           {/* Video + Resource cards row */}
-          <div
-            style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}
-            className="video-row"
-          >
+          <div className="vn-video-row" style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
+
             {/* Video player */}
             <div
-              className={`vu-fade ${s1Visible ? "go" : ""}`}
+              className={`vn-video-wrap vn-fade-left ${!reduced && s1Visible ? "vn-go-left" : ""}`}
               style={{
-                animationDelay: "120ms",
+                animationDelay: "100ms",
                 flex: "1 1 0",
                 minWidth: 0,
                 borderRadius: "16px",
@@ -173,14 +293,12 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
                   )}
                 </>
               ) : (
-                /* Placeholder until video is provided */
                 <div style={{
                   width: "100%", height: "100%", minHeight: "220px",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   background: "linear-gradient(135deg,#c8f5ea 0%,#e8faf5 100%)",
                   position: "relative",
                 }}>
-                  {/* OVZA logo text placeholder */}
                   <span style={{ fontSize: "32px", fontWeight: 900, color: "#0a1f1a", letterSpacing: "-1px" }}>OVZA</span>
                   <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <PlayButton />
@@ -191,9 +309,9 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
 
             {/* Resource cards column */}
             <div
-              className={`vu-fade ${s1Visible ? "go" : ""}`}
+              className={`vn-resource-col vn-fade-right ${!reduced && s1Visible ? "vn-go-right" : ""}`}
               style={{
-                animationDelay: "240ms",
+                animationDelay: "220ms",
                 display: "flex",
                 flexDirection: "column",
                 gap: "14px",
@@ -201,65 +319,37 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
                 flexShrink: 0,
               }}
             >
-              {/* Card 1 */}
-              <div
-                className="vu-resource-card"
-                style={{
-                  backgroundColor: "rgba(255,255,255,0.7)",
-                  backdropFilter: "blur(8px)",
-                  border: "1px solid rgba(52,190,134,0.25)",
-                  borderRadius: "14px",
-                  padding: "18px 16px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "6px",
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <BookIcon />
-                  <span style={{ fontSize: "13.5px", fontWeight: 700, color: "#0a1f1a" }}>
-                    Read our latest booklets
+              {[
+                { icon: <BookIcon />, label: "Read our latest booklets" },
+                { icon: <GlobeIcon />, label: "Check out our country guides" },
+              ].map((card, i) => (
+                <div
+                  key={card.label}
+                  className="vn-resource-card"
+                  style={{
+                    animationDelay: `${280 + i * 100}ms`,
+                    backgroundColor: "rgba(255,255,255,0.7)",
+                    backdropFilter: "blur(8px)",
+                    border: "1px solid rgba(52,190,134,0.25)",
+                    borderRadius: "14px",
+                    padding: "18px 16px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    {card.icon}
+                    <span style={{ fontSize: "13.5px", fontWeight: 700, color: "#0a1f1a" }}>{card.label}</span>
+                  </div>
+                  <span style={{ fontSize: "11px", color: "#34BE86", fontWeight: 600, paddingLeft: "24px" }}>
+                    Click Here
                   </span>
                 </div>
-                <span style={{ fontSize: "11px", color: "#34BE86", fontWeight: 600, paddingLeft: "24px" }}>
-                  Click Here
-                </span>
-              </div>
-
-              {/* Card 2 */}
-              <div
-                className="vu-resource-card"
-                style={{
-                  backgroundColor: "rgba(255,255,255,0.7)",
-                  backdropFilter: "blur(8px)",
-                  border: "1px solid rgba(52,190,134,0.25)",
-                  borderRadius: "14px",
-                  padding: "18px 16px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "6px",
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <GlobeIcon />
-                  <span style={{ fontSize: "13.5px", fontWeight: 700, color: "#0a1f1a" }}>
-                    Check out our country guides
-                  </span>
-                </div>
-                <span style={{ fontSize: "11px", color: "#34BE86", fontWeight: 600, paddingLeft: "24px" }}>
-                  Click Here
-                </span>
-              </div>
+              ))}
             </div>
           </div>
         </div>
-
-        <style>{`
-          @media (max-width: 640px) {
-            .video-row { flex-direction: column !important; }
-            .video-row > div:last-child { width: 100% !important; flex-direction: row !important; }
-          }
-        `}</style>
       </section>
 
       {/* ═══════════════════════════════════════════
@@ -269,7 +359,7 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
         <div style={{ maxWidth: "1276px", margin: "0 auto" }}>
           <div
             ref={section2Ref}
-            className={`vu-fade ${s2Visible ? "go" : ""}`}
+            className={`vn-fade-up ${!reduced && s2Visible ? "vn-go-up" : ""}`}
             style={{
               backgroundColor: "#c8f5ea",
               borderRadius: "20px",
@@ -283,8 +373,11 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
             }}
           >
             {/* Left — text + form */}
-            <div style={{ flex: "1 1 0", minWidth: 0, maxWidth: "480px", zIndex: 1 }}>
-              <h3 style={{ fontSize: "clamp(18px,2vw,24px)", fontWeight: 800, color: "#0a1f1a", marginBottom: "10px", lineHeight: 1.3 }}>
+            <div
+              className={`vn-fade-left ${!reduced && s2Visible ? "vn-go-left" : ""}`}
+              style={{ animationDelay: "120ms", flex: "1 1 0", minWidth: 0, maxWidth: "480px", zIndex: 1 }}
+            >
+              <h3 style={{ fontSize: "clamp(17px,2vw,24px)", fontWeight: 800, color: "#0a1f1a", marginBottom: "10px", lineHeight: 1.3 }}>
                 Subscribe to the OVZA Newsletter
               </h3>
               <p style={{ fontSize: "13px", color: "#2d5a47", lineHeight: 1.65, marginBottom: "22px" }}>
@@ -293,13 +386,14 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
 
               {/* Email input row */}
               {!submitted ? (
-                <div style={{ display: "flex", gap: "0", marginBottom: "16px" }}>
+                <div className="vn-sub-row" style={{ display: "flex", gap: "0", marginBottom: "16px" }}>
                   <input
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     onKeyDown={e => e.key === "Enter" && handleSubscribe()}
                     placeholder="Your email address"
+                    className="vn-email-input"
                     style={{
                       flex: 1,
                       padding: "11px 16px",
@@ -310,10 +404,11 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
                       outline: "none",
                       backgroundColor: "rgba(255,255,255,0.85)",
                       color: "#0a1f1a",
+                      transition: "border-color 0.2s ease, box-shadow 0.2s ease",
                     }}
                   />
                   <button
-                    className="vu-sub-btn"
+                    className="vn-sub-btn"
                     onClick={handleSubscribe}
                     style={{
                       backgroundColor: "#34BE86",
@@ -330,16 +425,19 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
                   </button>
                 </div>
               ) : (
-                <div style={{
-                  padding: "12px 20px",
-                  borderRadius: "999px",
-                  backgroundColor: "rgba(52,190,134,0.15)",
-                  color: "#0a7a54",
-                  fontSize: "13px",
-                  fontWeight: 600,
-                  marginBottom: "16px",
-                  display: "inline-block",
-                }}>
+                <div
+                  className="vn-success"
+                  style={{
+                    padding: "12px 20px",
+                    borderRadius: "999px",
+                    backgroundColor: "rgba(52,190,134,0.15)",
+                    color: "#0a7a54",
+                    fontSize: "13px",
+                    fontWeight: 600,
+                    marginBottom: "16px",
+                    display: "inline-block",
+                  }}
+                >
                   ✓ Thanks for subscribing!
                 </div>
               )}
@@ -349,7 +447,7 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
                 <p style={{ fontSize: "12px", color: "#4b5563", marginBottom: "10px" }}>
                   Follow us to get more updates!
                 </p>
-                <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                <div className="vn-social-row" style={{ display: "flex", gap: "12px", alignItems: "center" }}>
                   {[
                     { label: "Facebook", icon: <FbIcon /> },
                     { label: "X", icon: <XIcon /> },
@@ -357,15 +455,16 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
                     { label: "YouTube", icon: <YtIcon /> },
                     { label: "Instagram", icon: <IgIcon /> },
                     { label: "TikTok", icon: <TkIcon /> },
-                  ].map(s => (
+                  ].map((s, i) => (
                     <button
                       key={s.label}
-                      className="vu-social-icon"
+                      className="vn-social-icon"
                       title={s.label}
                       style={{
                         background: "none", border: "none", padding: 0,
                         width: "28px", height: "28px",
                         display: "flex", alignItems: "center", justifyContent: "center",
+                        animationDelay: `${i * 60}ms`,
                       }}
                     >
                       {s.icon}
@@ -377,14 +476,16 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
 
             {/* Right — illustration */}
             <div
-              className={`vu-fi ${s2Visible ? "go" : ""}`}
-              style={{ animationDelay: "200ms", flexShrink: 0, width: "clamp(140px,18vw,220px)" }}
+              className={`vn-newsletter-img vn-fade-right ${!reduced && s2Visible ? "vn-go-right" : ""}`}
+              style={{ animationDelay: "200ms", flexShrink: 0, width: "clamp(120px,18vw,220px)" }}
             >
-              {newsletterImage ? (
-                <img src={newsletterImage} alt="Newsletter illustration" style={{ width: "100%", objectFit: "contain" }} />
-              ) : (
-                <NewsletterIllustration />
-              )}
+              <div className={!reduced ? "vn-float" : ""}>
+                {newsletterImage ? (
+                  <img src={newsletterImage} alt="Newsletter illustration" style={{ width: "100%", objectFit: "contain" }} />
+                ) : (
+                  <NewsletterIllustration />
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -397,7 +498,7 @@ const VideoAndNewsletter: React.FC<VideoAndNewsletterProps> = ({
 
 const PlayButton = () => (
   <div
-    className="vu-play-btn"
+    className="vn-play-btn"
     style={{
       width: "56px", height: "56px", borderRadius: "50%",
       backgroundColor: "rgba(255,255,255,0.92)",
@@ -465,21 +566,16 @@ const TkIcon = () => (
   </svg>
 );
 
-/* Newsletter SVG placeholder illustration */
 const NewsletterIllustration = () => (
   <svg viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Phone */}
     <rect x="60" y="30" width="60" height="110" rx="10" fill="#34BE86" opacity="0.3"/>
     <rect x="65" y="42" width="50" height="80" rx="4" fill="white" opacity="0.7"/>
     <circle cx="90" cy="132" r="4" fill="#34BE86" opacity="0.5"/>
-    {/* Envelope */}
     <rect x="110" y="55" width="65" height="48" rx="6" fill="#34BE86" opacity="0.5"/>
     <path d="M110 61l32.5 22L175 61" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-    {/* Megaphone */}
     <path d="M130 30l20-8v28l-20-8v-12z" fill="#0a7a54" opacity="0.4"/>
     <rect x="122" y="33" width="8" height="18" rx="2" fill="#34BE86" opacity="0.5"/>
     <path d="M150 25l4-3M150 46l4 3M152 36h5" stroke="#34BE86" strokeWidth="1.5" strokeLinecap="round"/>
-    {/* Stars / sparkles */}
     <circle cx="40" cy="60" r="4" fill="#34BE86" opacity="0.3"/>
     <circle cx="170" cy="130" r="3" fill="#0a7a54" opacity="0.3"/>
     <path d="M30 100l4-4M34 100l-4-4" stroke="#34BE86" strokeWidth="1.5" strokeLinecap="round"/>

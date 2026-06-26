@@ -28,7 +28,7 @@ const tiers = [
     amount: "$45",
     label: "per company registered",
     referrals: "26–50 referrals",
-    defaultSelected: true, // default active
+    defaultSelected: true,
     extra: null,
   },
   {
@@ -64,6 +64,8 @@ const TierCard = ({
   onClick: () => void;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
+  const [isHovered, setIsHovered] = useState(false);
 
   // entrance animation
   useEffect(() => {
@@ -73,7 +75,9 @@ const TierCard = ({
       if (entry.isIntersecting) {
         setTimeout(() => {
           el.style.opacity = "1";
-          el.style.transform = "translateY(0) scale(1)";
+          el.style.transform = isSelected
+            ? "translateY(0) scale(1.025)"
+            : "translateY(0) scale(1)";
         }, index * 120);
         obs.disconnect();
       }
@@ -82,9 +86,23 @@ const TierCard = ({
     return () => obs.disconnect();
   }, [index]);
 
-  // ── Card background from Figma ──────────────────────────────────────────────
-  // Default: linear-gradient #F7F7F7 → #EEFCF5
-  // Selected: same gradient + radial glow #B9F8E0 at 45%
+  // keep selected card slightly elevated
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || parseFloat(el.style.opacity) === 0) return;
+    el.style.transform = isSelected ? "translateY(-6px) scale(1.025)" : "translateY(0) scale(1)";
+  }, [isSelected]);
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const id = Date.now();
+    setRipples((prev) => [...prev, { id, x, y }]);
+    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 600);
+    onClick();
+  };
+
   const bgDefault  = "linear-gradient(180deg, #F7F7F7 0%, #EEFCF5 100%)";
   const bgSelected = `
     radial-gradient(ellipse at 50% 30%, #B9F8E0 0%, transparent 65%),
@@ -94,13 +112,11 @@ const TierCard = ({
 
   return (
     <div
-      style={{
-        position: "relative",
-        width: "305px",
-        flexShrink: 0,
-        cursor: "pointer",
-      }}
-      onClick={onClick}
+      className="ct-card-wrapper"
+      style={{ position: "relative", flexShrink: 0, cursor: "pointer" }}
+      onClick={handleClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Badge */}
       {tier.badge && (
@@ -120,6 +136,8 @@ const TierCard = ({
           whiteSpace: "nowrap",
           zIndex: 2,
           boxShadow: "0 2px 10px rgba(29,179,141,0.3)",
+          animation: "ct-badge-pop 0.4s cubic-bezier(0.34,1.56,0.64,1) both",
+          animationDelay: `${index * 120 + 300}ms`,
         }}>
           {tier.badge}
         </div>
@@ -128,11 +146,10 @@ const TierCard = ({
       {/* Card */}
       <div
         ref={ref}
+        className={isSelected ? "ct-card ct-card--selected" : isHovered ? "ct-card ct-card--hovered" : "ct-card"}
         style={{
-          width: "305px",
           minHeight: "385px",
           borderRadius: "26px",
-          paddingBottom: "130px", // Figma bottom padding
           padding: "28px 24px 36px",
           display: "flex",
           flexDirection: "column",
@@ -141,129 +158,170 @@ const TierCard = ({
           gap: "6px",
           opacity: 0,
           transform: "translateY(24px) scale(0.97)",
-          transition: "opacity 0.5s ease, transform 0.4s ease, box-shadow 0.3s ease, background 0.4s ease",
+          transition: "opacity 0.5s ease, transform 0.45s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.3s ease, background 0.4s ease, border-color 0.3s ease",
           background: isSelected ? bgSelected : bgDefault,
           border: isSelected
             ? "1.5px solid #1DB38D"
-            : "1.5px solid rgba(29,179,141,0.15)",
+            : isHovered
+              ? "1.5px solid rgba(29,179,141,0.4)"
+              : "1.5px solid rgba(29,179,141,0.15)",
           boxShadow: isSelected
-            ? "0 12px 40px rgba(29,179,141,0.22), 0 2px 8px rgba(29,179,141,0.1)"
-            : "0 2px 12px rgba(0,0,0,0.04)",
+            ? "0 20px 50px rgba(29,179,141,0.28), 0 4px 12px rgba(29,179,141,0.12)"
+            : isHovered
+              ? "0 10px 30px rgba(29,179,141,0.15), 0 2px 8px rgba(0,0,0,0.06)"
+              : "0 2px 12px rgba(0,0,0,0.04)",
           boxSizing: "border-box" as const,
           userSelect: "none" as const,
+          position: "relative",
+          overflow: "hidden",
         }}
       >
-        {/* Tier label */}
-        <p style={{
-          margin: "0 0 6px",
-          fontSize: "11px",
-          fontWeight: 700,
-          letterSpacing: "0.16em",
-          color: isSelected ? "#1DB38D" : "#9ca3af",
-          fontFamily: "'Poppins', sans-serif",
-          textTransform: "uppercase",
-          transition: "color 0.3s ease",
-        }}>
-          {tier.tier}
-        </p>
-
-        {/* Amount */}
-        <p style={{
-          margin: "4px 0 0",
-          fontSize: "52px",
-          fontWeight: 800,
-          color: "#0F131E",
-          fontFamily: "'Poppins', sans-serif",
-          lineHeight: 1,
-          letterSpacing: "-1px",
-        }}>
-          {tier.amount}
-        </p>
-
-        {/* Per company */}
-        <p style={{
-          margin: "6px 0 0",
-          fontSize: "12px",
-          color: "#9ca3af",
-          fontFamily: "'Poppins', sans-serif",
-        }}>
-          {tier.label}
-        </p>
-
-        {/* Divider */}
-        <div style={{
-          width: "100%",
-          height: "1px",
-          background: isSelected ? "rgba(29,179,141,0.25)" : "#e9ecef",
-          margin: "20px 0",
-          transition: "background 0.3s ease",
-        }} />
-
-        {/* Referrals */}
-        <p style={{
-          margin: 0,
-          fontSize: "13px",
-          fontWeight: 600,
-          color: isSelected ? "#1DB38D" : "#374151",
-          fontFamily: "'Poppins', sans-serif",
-          transition: "color 0.3s ease",
-        }}>
-          {tier.referrals}
-        </p>
-
-        {/* Platinum extra feature */}
-        {tier.extra && (
+        {/* Shimmer overlay on hover */}
+        {isHovered && !isSelected && (
           <div style={{
-            marginTop: "18px",
-            background: isSelected ? "rgba(29,179,141,0.12)" : "rgba(29,179,141,0.07)",
-            border: `1px solid rgba(29,179,141,${isSelected ? "0.3" : "0.15"})`,
-            borderRadius: "12px",
-            padding: "10px 14px",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            textAlign: "left",
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(105deg, transparent 40%, rgba(29,179,141,0.06) 50%, transparent 60%)",
+            animation: "ct-shimmer 0.7s ease forwards",
+            pointerEvents: "none",
+            zIndex: 0,
+            borderRadius: "26px",
+          }} />
+        )}
+
+        {/* Ripple effects */}
+        {ripples.map((r) => (
+          <span key={r.id} style={{
+            position: "absolute",
+            left: r.x,
+            top: r.y,
+            width: "8px",
+            height: "8px",
+            borderRadius: "50%",
+            background: "rgba(29,179,141,0.35)",
+            transform: "translate(-50%, -50%) scale(0)",
+            animation: "ct-ripple 0.6s ease-out forwards",
+            pointerEvents: "none",
+            zIndex: 0,
+          }} />
+        ))}
+
+        {/* Content (above shimmer/ripple) */}
+        <div style={{ position: "relative", zIndex: 1, width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
+          {/* Tier label */}
+          <p style={{
+            margin: "0 0 6px",
+            fontSize: "11px",
+            fontWeight: 700,
+            letterSpacing: "0.16em",
+            color: isSelected ? "#1DB38D" : "#9ca3af",
+            fontFamily: "'Poppins', sans-serif",
+            textTransform: "uppercase",
+            transition: "color 0.3s ease",
+          }}>
+            {tier.tier}
+          </p>
+
+          {/* Amount */}
+          <p style={{
+            margin: "4px 0 0",
+            fontSize: "52px",
+            fontWeight: 800,
+            color: "#0F131E",
+            fontFamily: "'Poppins', sans-serif",
+            lineHeight: 1,
+            letterSpacing: "-1px",
+            transition: "transform 0.3s ease",
+            transform: isSelected ? "scale(1.05)" : "scale(1)",
+          }}>
+            {tier.amount}
+          </p>
+
+          {/* Per company */}
+          <p style={{
+            margin: "6px 0 0",
+            fontSize: "12px",
+            color: "#9ca3af",
+            fontFamily: "'Poppins', sans-serif",
+          }}>
+            {tier.label}
+          </p>
+
+          {/* Divider */}
+          <div style={{
             width: "100%",
-            transition: "background 0.3s ease, border 0.3s ease",
-          }}>
-            <div style={{
-              width: "34px", height: "34px", borderRadius: "50%",
-              background: "rgba(29,179,141,0.12)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              flexShrink: 0,
-            }}>
-              {tier.extra.icon}
-            </div>
-            <p style={{
-              margin: 0,
-              fontSize: "12px",
-              fontWeight: 500,
-              color: "#374151",
-              fontFamily: "'Poppins', sans-serif",
-              lineHeight: 1.5,
-            }}>
-              {tier.extra.text}
-            </p>
-          </div>
-        )}
+            height: "1px",
+            background: isSelected ? "rgba(29,179,141,0.25)" : "#e9ecef",
+            margin: "20px 0",
+            transition: "background 0.3s ease",
+          }} />
 
-        {/* Selected indicator dot */}
-        {isSelected && (
-          <div style={{
-            marginTop: "auto",
-            paddingTop: "20px",
-            display: "flex",
-            gap: "5px",
-            alignItems: "center",
-            justifyContent: "center",
+          {/* Referrals */}
+          <p style={{
+            margin: 0,
+            fontSize: "13px",
+            fontWeight: 600,
+            color: isSelected ? "#1DB38D" : "#374151",
+            fontFamily: "'Poppins', sans-serif",
+            transition: "color 0.3s ease",
           }}>
+            {tier.referrals}
+          </p>
+
+          {/* Platinum extra feature */}
+          {tier.extra && (
             <div style={{
-              width: "6px", height: "6px", borderRadius: "50%",
-              background: "#1DB38D",
-              animation: "ct-pulse-dot 1.5s ease-in-out infinite",
-            }} />
-          </div>
-        )}
+              marginTop: "18px",
+              background: isSelected ? "rgba(29,179,141,0.12)" : "rgba(29,179,141,0.07)",
+              border: `1px solid rgba(29,179,141,${isSelected ? "0.3" : "0.15"})`,
+              borderRadius: "12px",
+              padding: "10px 14px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              textAlign: "left",
+              width: "100%",
+              transition: "background 0.3s ease, border 0.3s ease",
+            }}>
+              <div style={{
+                width: "34px", height: "34px", borderRadius: "50%",
+                background: "rgba(29,179,141,0.12)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexShrink: 0,
+              }}>
+                {tier.extra.icon}
+              </div>
+              <p style={{
+                margin: 0,
+                fontSize: "12px",
+                fontWeight: 500,
+                color: "#374151",
+                fontFamily: "'Poppins', sans-serif",
+                lineHeight: 1.5,
+              }}>
+                {tier.extra.text}
+              </p>
+            </div>
+          )}
+
+          {/* Selected indicator dot */}
+          {isSelected && (
+            <div style={{
+              marginTop: "auto",
+              paddingTop: "20px",
+              display: "flex",
+              gap: "5px",
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+              <div style={{
+                width: "6px", height: "6px", borderRadius: "50%",
+                background: "#1DB38D",
+                animation: "ct-pulse-dot 1.5s ease-in-out infinite",
+              }} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -271,7 +329,7 @@ const TierCard = ({
 
 // ─── Main Section ─────────────────────────────────────────────────────────────
 const CommissionTiers = () => {
-  const [selectedId, setSelectedId] = useState(3); // GOLD selected by default
+  const [selectedId, setSelectedId] = useState(3);
   const headingRef   = useRef<HTMLDivElement>(null);
   const guaranteeRef = useRef<HTMLDivElement>(null);
 
@@ -299,6 +357,7 @@ const CommissionTiers = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
+        /* ── Keyframes ─────────────────────────────────────── */
         @keyframes ct-spin {
           from { transform: rotate(0deg); }
           to   { transform: rotate(360deg); }
@@ -309,20 +368,85 @@ const CommissionTiers = () => {
         }
 
         @keyframes ct-pulse-dot {
-          0%, 100% { transform: scale(1); opacity: 1; }
+          0%, 100% { transform: scale(1);   opacity: 1; }
           50%       { transform: scale(1.6); opacity: 0.5; }
         }
 
+        @keyframes ct-shimmer {
+          0%   { transform: translateX(-100%); }
+          100% { transform: translateX(200%); }
+        }
+
+        @keyframes ct-ripple {
+          to { transform: translate(-50%, -50%) scale(40); opacity: 0; }
+        }
+
+        @keyframes ct-badge-pop {
+          0%   { opacity: 0; transform: translateX(-50%) scale(0.6); }
+          100% { opacity: 1; transform: translateX(-50%) scale(1); }
+        }
+
+        /* Coin glow pulse */
+        @keyframes ct-coin-glow {
+          0%, 100% { box-shadow: 0 4px 16px rgba(245,158,11,0.4); }
+          50%       { box-shadow: 0 4px 32px rgba(245,158,11,0.75), 0 0 0 8px rgba(245,158,11,0.1); }
+        }
+        .ct-coin-inner {
+          animation: ct-coin-glow 2.4s ease-in-out infinite;
+        }
+
+        /* Heading underline draw */
+        @keyframes ct-underline-draw {
+          from { width: 0; }
+          to   { width: 60px; }
+        }
+        .ct-heading-line {
+          display: block;
+          height: 3px;
+          width: 0;
+          background: #1DB38D;
+          border-radius: 2px;
+          margin: 10px auto 0;
+          animation: ct-underline-draw 0.6s 0.4s cubic-bezier(0.4,0,0.2,1) forwards;
+        }
+
+        /* ── Layout ────────────────────────────────────────── */
         .ct-cards {
-          display: flex;
+          display: grid;
+          grid-template-columns: repeat(4, 305px);
           gap: 20px;
           justify-content: center;
-          flex-wrap: wrap;
           padding-top: 24px;
         }
 
-        @media (max-width: 700px) {
-          .ct-cards > div { width: 100% !important; }
+        /* ── Responsive ────────────────────────────────────── */
+
+        /* ≤1340px: 2 columns */
+        @media (max-width: 1340px) {
+          .ct-cards {
+            grid-template-columns: repeat(2, minmax(0, 305px));
+          }
+          .ct-card-wrapper {
+            width: 100% !important;
+          }
+        }
+
+        /* ≤680px: 1 column */
+        @media (max-width: 680px) {
+          .ct-cards {
+            grid-template-columns: 1fr;
+            max-width: 340px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+          .ct-card-wrapper {
+            width: 100% !important;
+          }
+        }
+
+        /* Card base — width via grid */
+        .ct-card-wrapper {
+          width: 305px;
         }
       `}</style>
 
@@ -371,7 +495,7 @@ const CommissionTiers = () => {
               Commission Tiers
             </p>
             <h2 style={{
-              margin: "0 0 12px",
+              margin: "0 0 4px",
               fontSize: "clamp(26px, 3.5vw, 40px)",
               fontWeight: 800,
               color: "#0F131E",
@@ -380,8 +504,10 @@ const CommissionTiers = () => {
             }}>
               Progressive Earnings as You Grow
             </h2>
+            {/* animated underline */}
+            <span className="ct-heading-line" />
             <p style={{
-              margin: 0,
+              margin: "14px 0 0",
               fontSize: "15px",
               color: "#6b7280",
               fontFamily: "'Poppins', sans-serif",
@@ -429,14 +555,15 @@ const CommissionTiers = () => {
                   stroke="#1DB38D" strokeWidth="2.5"
                   strokeLinecap="round" strokeLinejoin="round" fill="none" />
               </svg>
-              <div style={{
-                position: "absolute", top: "50%", left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: "48px", height: "48px", borderRadius: "50%",
-                background: "linear-gradient(135deg, #F59E0B 0%, #FBBF24 50%, #D97706 100%)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                boxShadow: "0 4px 16px rgba(245,158,11,0.4)",
-              }}>
+              <div
+                className="ct-coin-inner"
+                style={{
+                  position: "absolute", top: "50%", left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: "48px", height: "48px", borderRadius: "50%",
+                  background: "linear-gradient(135deg, #F59E0B 0%, #FBBF24 50%, #D97706 100%)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
                 <span style={{
                   fontSize: "22px", fontWeight: 800,
                   color: "#92400E", fontFamily: "'Poppins', sans-serif", lineHeight: 1,

@@ -92,25 +92,31 @@ const ArticleCard = ({
   article,
   active,
   animIndex,
+  visible,
 }: {
   article: Article;
   active: boolean;
   animIndex: number;
+  visible: boolean;
 }) => (
   <div
     className={`
       article-card flex-shrink-0
-      w-[280px] sm:w-[300px] md:w-[322px]
+      w-[260px] sm:w-[300px] md:w-[322px]
       rounded-[20px] bg-white overflow-hidden
       border transition-all duration-500 cursor-pointer
       ${active
         ? "border-[#1DB38D] border-[1.5px] shadow-2xl scale-[1.03]"
         : "border-gray-100 shadow-sm hover:shadow-md hover:scale-[1.01]"
       }
+      ${visible ? "card-visible" : ""}
     `}
-    style={{ padding: "10px", animationDelay: `${animIndex * 120}ms` }}
+    style={{
+      padding: "10px",
+      animationDelay: `${200 + animIndex * 120}ms`,
+    }}
   >
-    <div className="w-full h-[170px] md:h-[190px] rounded-[14px] bg-[#E8F9F5] overflow-hidden relative">
+    <div className="w-full h-[160px] sm:h-[170px] md:h-[190px] rounded-[14px] bg-[#E8F9F5] overflow-hidden relative">
       {article.image ? (
         <img
           src={article.image}
@@ -119,12 +125,18 @@ const ArticleCard = ({
         />
       ) : (
         <div className="flex flex-col items-center justify-center gap-2 px-4 text-center h-full">
-          <span className="text-[9px] font-semibold text-[#0F131E]/60 uppercase tracking-wide leading-tight"
-            style={{ fontFamily: "Poppins, sans-serif" }}>
+          <span
+            className="text-[9px] font-semibold text-[#0F131E]/60 uppercase tracking-wide leading-tight"
+            style={{ fontFamily: "Poppins, sans-serif" }}
+          >
             {article.category}
           </span>
-          <span className="absolute bottom-2 right-3 text-[10px] text-gray-300 font-semibold"
-            style={{ fontFamily: "Poppins, sans-serif" }}>OVZA</span>
+          <span
+            className="absolute bottom-2 right-3 text-[10px] text-gray-300 font-semibold"
+            style={{ fontFamily: "Poppins, sans-serif" }}
+          >
+            OVZA
+          </span>
         </div>
       )}
       {active && (
@@ -133,20 +145,30 @@ const ArticleCard = ({
     </div>
 
     <div className="pt-4 px-2 pb-3">
-      <h3 className="text-[14px] md:text-[15px] font-bold text-[#0F131E] leading-snug"
-        style={{ fontFamily: "Poppins, sans-serif" }}>
+      <h3
+        className="text-[13px] sm:text-[14px] md:text-[15px] font-bold text-[#0F131E] leading-snug"
+        style={{ fontFamily: "Poppins, sans-serif" }}
+      >
         {article.title}
       </h3>
-      <p className="mt-2 text-[11px] md:text-[12px] text-gray-500 leading-relaxed line-clamp-3"
-        style={{ fontFamily: "Poppins, sans-serif" }}>
+      <p
+        className="mt-2 text-[11px] md:text-[12px] text-gray-500 leading-relaxed line-clamp-3"
+        style={{ fontFamily: "Poppins, sans-serif" }}
+      >
         {article.excerpt}
       </p>
-      <a href="#"
-        className="mt-3 inline-flex items-center gap-1 text-[13px] font-semibold text-[#1DB38D] group"
-        style={{ fontFamily: "Poppins, sans-serif" }}>
+      <a
+        href="#"
+        className="mt-3 inline-flex items-center gap-1 text-[13px] font-semibold text-[#1DB38D] group read-more-link"
+        style={{ fontFamily: "Poppins, sans-serif" }}
+      >
         Read More
-        <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"
-          fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </a>
@@ -161,7 +183,7 @@ const CountriesMap = ({ visible }: { visible: boolean }) => (
     style={{
       border: "1px solid #34BE86",
       borderRadius: "25px",
-      padding: "25px",
+      padding: "20px",
       maxWidth: "1276px",
       margin: "32px auto 0",
       background: "#ffffff",
@@ -170,7 +192,7 @@ const CountriesMap = ({ visible }: { visible: boolean }) => (
   >
     {/* ── World Map Image ── */}
     <div
-      className="relative w-full overflow-hidden"
+      className="relative w-full overflow-hidden map-image-wrap"
       style={{ borderRadius: "16px", background: "#edfaf6" }}
     >
       <img
@@ -185,7 +207,7 @@ const CountriesMap = ({ visible }: { visible: boolean }) => (
       {regions.map((region, ri) => (
         <div
           key={region.name}
-          className="region-list"
+          className={`region-list ${visible ? "anim-fade-up" : "opacity-0"}`}
           style={{ animationDelay: `${900 + ri * 150}ms` }}
         >
           <h4
@@ -195,11 +217,14 @@ const CountriesMap = ({ visible }: { visible: boolean }) => (
             {region.name}
           </h4>
           <ul className="space-y-[10px]">
-            {region.countries.map((c) => (
+            {region.countries.map((c, ci) => (
               <li
                 key={c.name}
-                className="flex items-center gap-2.5 text-[13px] text-[#0F131E] hover:text-[#1DB38D] transition-colors duration-200 cursor-default group"
-                style={{ fontFamily: "Poppins, sans-serif" }}
+                className="country-item flex items-center gap-2.5 text-[13px] text-[#0F131E] hover:text-[#1DB38D] transition-colors duration-200 cursor-default group"
+                style={{
+                  fontFamily: "Poppins, sans-serif",
+                  animationDelay: `${1000 + ri * 150 + ci * 40}ms`,
+                }}
               >
                 <img
                   src={c.flag}
@@ -252,6 +277,7 @@ const OVZAFiles = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
+        /* ── Entrance ── */
         @keyframes fadeSlideUp {
           from { opacity: 0; transform: translateY(32px); }
           to   { opacity: 1; transform: translateY(0); }
@@ -261,15 +287,19 @@ const OVZAFiles = () => {
           animation: fadeSlideUp 0.65s ease forwards;
         }
 
+        /* ── Card pop ── */
         @keyframes cardPop {
-          from { opacity: 0; transform: translateY(24px) scale(0.97); }
-          to   { opacity: 1; transform: translateY(0) scale(1); }
+          from { opacity: 0; transform: translateY(24px) scale(0.96); }
+          to   { opacity: 1; transform: translateY(0)   scale(1); }
         }
         .article-card {
           opacity: 0;
+        }
+        .article-card.card-visible {
           animation: cardPop 0.55s ease forwards;
         }
 
+        /* ── Slide up for map / banner ── */
         @keyframes slideInUp {
           from { opacity: 0; transform: translateY(40px); }
           to   { opacity: 1; transform: translateY(0); }
@@ -287,13 +317,93 @@ const OVZAFiles = () => {
           animation: fadeSlideUp 0.6s ease forwards;
         }
 
+        /* ── Country row stagger ── */
+        @keyframes rowIn {
+          from { opacity: 0; transform: translateX(-10px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        .country-item {
+          opacity: 0;
+          animation: rowIn 0.4s ease forwards;
+        }
+
+        /* ── Map shimmer on load ── */
+        @keyframes mapShimmer {
+          0%   { opacity: 0.6; }
+          50%  { opacity: 1; }
+          100% { opacity: 0.6; }
+        }
+        .map-image-wrap img {
+          animation: mapShimmer 3s ease-in-out infinite;
+        }
+
+        /* ── Number counter pulse ── */
+        @keyframes countPulse {
+          0%, 100% { transform: scale(1); }
+          50%       { transform: scale(1.04); }
+        }
+        .count-pulse {
+          display: inline-block;
+          animation: countPulse 2.8s ease-in-out infinite;
+        }
+
+        /* ── Nav arrow bounce hint (once) ── */
+        @keyframes arrowHint {
+          0%   { transform: translateX(0); }
+          25%  { transform: translateX(4px); }
+          50%  { transform: translateX(0); }
+          75%  { transform: translateX(4px); }
+          100% { transform: translateX(0); }
+        }
+        .arrow-hint {
+          animation: arrowHint 1s ease 1.2s 1 forwards;
+        }
+
+        /* ── Read more underline sweep ── */
+        .read-more-link {
+          position: relative;
+        }
+        .read-more-link::after {
+          content: '';
+          position: absolute;
+          left: 0; bottom: -1px;
+          width: 0; height: 1.5px;
+          background: #1DB38D;
+          transition: width 0.28s ease;
+        }
+        .read-more-link:hover::after {
+          width: 100%;
+        }
+
+        /* ── Dot pill transition (already inline, just ensure smoothness) ── */
+        .dot-pill {
+          transition: width 0.3s cubic-bezier(0.4,0,0.2,1),
+                      background 0.3s ease,
+                      opacity 0.3s ease;
+        }
+
+        /* ── Scrollbar hidden ── */
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* ── Nav button ripple feel ── */
+        .nav-btn {
+          position: relative;
+          overflow: hidden;
+          transition: background-color 0.25s ease, transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .nav-btn:hover  { transform: scale(1.1); box-shadow: 0 6px 16px rgba(29,179,141,0.35); }
+        .nav-btn:active { transform: scale(0.95); }
+
+        /* ── Reduced motion ── */
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after { animation: none !important; transition: none !important; }
+        }
       `}</style>
 
       <section
         ref={sectionRef}
-        className="relative overflow-hidden py-14 md:py-20 px-4 sm:px-6"
+        className="relative overflow-hidden py-12 sm:py-16 md:py-20 px-4 sm:px-6"
         style={{
           background: "linear-gradient(135deg, #FFFFFF 0%, #D5F7F0 100%)",
           borderRadius: "33px",
@@ -303,27 +413,31 @@ const OVZAFiles = () => {
         }}
       >
         {/* Decorative blobs */}
-        <div className="pointer-events-none absolute -top-16 -right-16 w-64 h-64 rounded-full opacity-20"
-          style={{ background: "radial-gradient(circle, #72D0C0 0%, transparent 70%)" }} />
-        <div className="pointer-events-none absolute -bottom-20 -left-10 w-72 h-72 rounded-full opacity-15"
-          style={{ background: "radial-gradient(circle, #1DB38D 0%, transparent 70%)" }} />
+        <div
+          className="pointer-events-none absolute -top-16 -right-16 w-48 sm:w-64 h-48 sm:h-64 rounded-full opacity-20"
+          style={{ background: "radial-gradient(circle, #72D0C0 0%, transparent 70%)" }}
+        />
+        <div
+          className="pointer-events-none absolute -bottom-20 -left-10 w-56 sm:w-72 h-56 sm:h-72 rounded-full opacity-15"
+          style={{ background: "radial-gradient(circle, #1DB38D 0%, transparent 70%)" }}
+        />
 
         <div className="relative z-10 max-w-6xl mx-auto">
 
           {/* ── Header ── */}
           <div
-            className={`flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-10 ${visible ? "anim-fade-up" : "opacity-0"}`}
+            className={`flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-8 md:mb-10 ${visible ? "anim-fade-up" : "opacity-0"}`}
             style={{ animationDelay: "0ms" }}
           >
             <div>
               <h2
-                className="text-[28px] sm:text-[34px] md:text-[40px] font-bold text-[#0F131E] leading-tight"
+                className="text-[26px] sm:text-[32px] md:text-[40px] font-bold text-[#0F131E] leading-tight"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 The OVZA Files
               </h2>
               <p
-                className="mt-2 text-[13px] md:text-[14px] text-[#0F131E]/60 max-w-md"
+                className="mt-2 text-[12px] sm:text-[13px] md:text-[14px] text-[#0F131E]/60 max-w-md"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 In our blog, we explore the strategies, structures, and legal
@@ -337,17 +451,19 @@ const OVZAFiles = () => {
             >
               <button
                 onClick={() => scroll("left")}
-                className="w-10 h-10 rounded-full bg-[#72D0C0] hover:bg-[#1DB38D] text-white flex items-center justify-center shadow-md transition-all duration-300 hover:scale-110 active:scale-95"
+                className="nav-btn w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#72D0C0] hover:bg-[#1DB38D] text-white flex items-center justify-center shadow-md"
+                aria-label="Previous"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
               <button
                 onClick={() => scroll("right")}
-                className="w-10 h-10 rounded-full bg-[#72D0C0] hover:bg-[#1DB38D] text-white flex items-center justify-center shadow-md transition-all duration-300 hover:scale-110 active:scale-95"
+                className="nav-btn arrow-hint w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#72D0C0] hover:bg-[#1DB38D] text-white flex items-center justify-center shadow-md"
+                aria-label="Next"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
@@ -357,30 +473,33 @@ const OVZAFiles = () => {
           {/* ── Cards Row ── */}
           <div
             ref={scrollRef}
-            className="hide-scroll flex gap-5 overflow-x-auto pb-4 scroll-smooth"
+            className="hide-scroll flex gap-4 sm:gap-5 overflow-x-auto pb-4 scroll-smooth"
           >
             {articles.map((article, index) => (
               <div
                 key={article.id}
                 onClick={() => setActiveIndex(index)}
-                style={{ animationDelay: visible ? `${200 + index * 120}ms` : "0ms" }}
-                className={!visible ? "opacity-0" : ""}
               >
-                <ArticleCard article={article} active={index === activeIndex} animIndex={index} />
+                <ArticleCard
+                  article={article}
+                  active={index === activeIndex}
+                  animIndex={index}
+                  visible={visible}
+                />
               </div>
             ))}
           </div>
 
           {/* ── Dots ── */}
           <div
-            className={`mt-7 flex justify-center items-center gap-2 ${visible ? "anim-fade-up" : "opacity-0"}`}
+            className={`mt-6 sm:mt-7 flex justify-center items-center gap-2 ${visible ? "anim-fade-up" : "opacity-0"}`}
             style={{ animationDelay: "600ms" }}
           >
             {articles.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveIndex(i)}
-                className="h-2.5 rounded-full transition-all duration-300 focus:outline-none"
+                className="dot-pill h-2.5 rounded-full focus:outline-none"
                 style={{
                   width: i === activeIndex ? "24px" : "10px",
                   background: i === activeIndex ? "#1DB38D" : "#72D0C0",
@@ -392,38 +511,42 @@ const OVZAFiles = () => {
 
           {/* ── 18 Countries Banner ── */}
           <div
-            className={`countries-banner mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 px-6 sm:px-8 md:px-10 py-8 md:py-10 ${visible ? "" : "opacity-0"}`}
+            className={`countries-banner mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 px-5 sm:px-8 md:px-10 py-7 md:py-10 ${visible ? "" : "opacity-0"}`}
             style={{
               background: "#94E7B9",
               borderRadius: "25px",
               border: "1px solid #5ECE9A",
               maxWidth: "1276px",
-              minHeight: "266px",
-              margin: "40px auto 0",
+              minHeight: "auto",
+              margin: "32px auto 0",
               animationDelay: "700ms",
             }}
           >
             <div className="flex items-center">
               <h3
-                className="text-[24px] sm:text-[28px] md:text-[32px] font-bold text-[#0F131E] leading-snug"
+                className="text-[22px] sm:text-[26px] md:text-[32px] font-bold text-[#0F131E] leading-snug"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
-                18 Countries<br />
+                <span className="count-pulse">18</span> Countries<br />
                 Supported by OVZA<br />
                 for Offshore<br />
                 Company Formation
               </h3>
             </div>
             <div className="flex flex-col justify-center gap-4">
-              <p className="text-[13px] md:text-[14px] text-[#0F131E]/80 leading-relaxed"
-                style={{ fontFamily: "Poppins, sans-serif" }}>
+              <p
+                className="text-[12px] sm:text-[13px] md:text-[14px] text-[#0F131E]/80 leading-relaxed"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
                 OVZA extends its expertise across continents,{" "}
                 <strong className="text-[#0F131E]">offering offshore company formation</strong>{" "}
                 and <strong className="text-[#0F131E]">banking support</strong>{" "}
                 in a diversified portfolio of jurisdictions.
               </p>
-              <p className="text-[13px] md:text-[14px] text-[#0F131E]/80 leading-relaxed"
-                style={{ fontFamily: "Poppins, sans-serif" }}>
+              <p
+                className="text-[12px] sm:text-[13px] md:text-[14px] text-[#0F131E]/80 leading-relaxed"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
                 From the Americas to Asia Pacific and Africa, our services cater to a vast array
                 of strategic locations including Anguilla, the British Virgin Islands, Belize, and beyond.{" "}
                 <strong className="text-[#0F131E]">
